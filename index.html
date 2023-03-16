@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  
+   
+    <title>Feature Page</title>
+</head>
+<body>
+    <style>
+ 
+        .main{
+            background-color:#f0f2f4;
+            text-align: center;
+            font-style: poppins;
+            width: 98%;
+            margin: 0 auto;
+            padding: 5px;
+        }
+        .main .header{
+            padding: 10px;
+            background-color: #011f3d;
+            color: white;
+        }
+        .height{
+            height: 100vh;
+           }
+        .card{
+            border:none;
+            padding: 20px;
+            color: rgb(5, 5, 5);
+    
+           }
+        .card button {
+               
+            color: black;
+            font-size: 18px;
+            padding: 0.4em 1.2em;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            width: 90%;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+            
+            
+           } 
+           .card a{
+            padding: 15px;
+           }
+          
+    
+      
+       
+           
+        
+    </style>
+    <body>
+        <div class="main">
+            <div class="header">
+                <h2>Auto-Deployment Feature</h2>
+            </div>
+             <!--Form content start-->
+                <div class="container mt-5 mb-5">
+    
+                            <div class="row d-flex align-items-center justify-content-center">
+    
+                                <div class="col-md-6">
+                                   
+    
+                                        <div class="card px-5 py-5">
+    
+                                            <a href="./deployment_with_CLS.html"> <button>Deployment with CLS (Kibana)</button></a>
+                                            <a href="./deployment_with_CICD.html"> <button>Deployment with CICD(ArgoCD)</button></a>
+                                            <a href="./Deployment_with_monitoring.html"> <button>Deployment with Monitoring(Prometheus & Grafana)</button></a>
+                                            <a href="./Deplayment_with_HPA.html"> <button>Deployment with HPA (Keda)</button></a>
+                                            <a href="./multifeature.html"> <button>Multi Feature Depoyment</button></a>
+                                            
+                                        
+                                        </div>
+                                  
+    
+    
+                                    
+                                </div>
+                            
+                            </div>
+                        
+                 </div>
+            <!--Form content end-->
+             
+        </div>
+
+
+
+
+
+
+    <!--Footer content start-->
+    <div class="footer-container" id="footer-container"></div>
+    <script>
+        const footer_req=new XMLHttpRequest();
+        const container=document.getElementById('footer-container');
+        footer_req.onload=function(){
+            if(this.status===200){
+                container.innerHTML=footer_req.responseText;
+
+            }
+            else{
+                console.warn("Failed to load Footer");
+            }
+
+        };
+       footer_req.open('get','footer.html');    
+       footer_req.send();
+    </script>
+    <!--Footer content end-->
+</body>
+</html>

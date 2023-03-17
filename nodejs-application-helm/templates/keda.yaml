@@ -1,0 +1,23 @@
+{{- $kedaEnabled:= index $.Values "keda" "enabled" }}
+{{- if $kedaEnabled }}
+apiVersion: {{ index $.Values "keda" "apiversion" }}
+kind: ScaledObject
+metadata:
+  name: {{ index $.Values "keda" "app_name" }}
+  namespace: {{ index $.Values "keda" "namespace" }}
+spec:
+  scaleTargetRef:
+    apiVersion: {{ .Values.apiversion }}
+    name: {{ .Values.app_name }}-dep
+    kind: Deployment
+  pollingInterval: {{ index $.Values "keda" "pollingInterval" }}                     
+  cooldownPeriod: {{ index $.Values "keda" "cooldownPeriod" }}                            
+  minReplicaCount: {{ index $.Values "keda" "minReplicaCount" }}                             
+  maxReplicaCount: {{ index $.Values "keda" "maxReplicaCount" }}
+  triggers:
+  - type: {{ index $.Values "keda" "triggers" "type" }}
+    metricType: {{ index $.Values "keda" "triggers" "metricType" }}
+    metadata:
+      type: {{ index $.Values "keda" "triggers" "metricType" }}
+      value:  {{ index $.Values "keda" "triggers" "value" }}
+{{- end }}

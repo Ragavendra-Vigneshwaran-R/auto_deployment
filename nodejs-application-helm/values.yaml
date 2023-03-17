@@ -28,5 +28,16 @@ hpa:
     PeriodSeconds: 120
     Value1: 40
     PeriodSeconds1: 120
-
-
+keda:
+  enabled: true
+  apiversion: keda.sh/v1alpha1
+  app_name: keda
+  namespace: ragav
+  pollingInterval:  3   
+  cooldownPeriod:   30    
+  minReplicaCount:  1 
+  maxReplicaCount:  3
+  triggers:
+    type: cpu
+    metricType: Utilization
+    value: "30"

@@ -16,7 +16,7 @@ request_memory: 500Mi
 limit_cpu: 1
 limit_memory: 1Gi
 hpa:
-  enabled: false
+  enabled: true
   apiVersion: autoscaling/v1
   kind: HorizontalPodAutoscaler
   StabilizationWindowSeconds: 0

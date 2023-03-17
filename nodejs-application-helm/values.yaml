@@ -11,12 +11,12 @@ dbuser: cmFnYXY=
 dbpass: cmFnYXYxMjM0
 dbname: dXNlckRC
 dbport: MzMwNg==
-request_cpu: 500m
-request_memory: 500Mi
-limit_cpu: 1
-limit_memory: 1Gi
+request_cpu: 10m
+request_memory: 100Mi
+limit_cpu: 20m
+limit_memory: 200Mi
 hpa:
-  enabled: true
+  enabled: false
   apiVersion: autoscaling/v1
   kind: HorizontalPodAutoscaler
   StabilizationWindowSeconds: 0
@@ -41,11 +41,3 @@ keda:
     type: cpu
     metricType: Utilization
     value: 30
-  hpa:
-    restoreToOriginalReplicaCount: true
-    name: keda-hpa
-    stabilizationWindowSeconds: 300
-    policies:
-      type: Percent
-      value: 20
-      periodSeconds: 80

@@ -14,6 +14,17 @@ spec:
   cooldownPeriod: {{ index $.Values "keda" "cooldownPeriod" }}                            
   minReplicaCount: {{ index $.Values "keda" "minReplicaCount" }}                             
   maxReplicaCount: {{ index $.Values "keda" "maxReplicaCount" }}
+  advanced:
+    restoreToOriginalReplicaCount: {{ index $.Values "keda" "hpa" "restoreToOriginalReplicaCount" }}
+    horizontalPodAutoscalerConfig:
+      name: {{ index $.Values "keda" "hpa" "name" }}
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: {{ index $.Values "keda" "hpa" "stabilizationWindowSeconds" }}
+          policies:
+          - type: {{ index $.Values "keda" "hpa" "policies" "type" }}
+            value: {{ index $.Values "keda" "hpa" "policies" "value" }}
+            periodSeconds: {{ index $.Values "keda" "hpa" "policies" "periodSeconds" }}
   triggers:
   - type: {{ index $.Values "keda" "triggers" "type" }}
     metricType: {{ index $.Values "keda" "triggers" "metricType" }}

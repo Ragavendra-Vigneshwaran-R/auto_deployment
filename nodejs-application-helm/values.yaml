@@ -41,3 +41,11 @@ keda:
     type: cpu
     metricType: Utilization
     value: 30
+  hpa:
+    restoreToOriginalReplicaCount: true
+    name: keda-hpa
+    stabilizationWindowSeconds: 300
+    policies:
+      type: Percent
+      value: 20
+      periodSeconds: 80

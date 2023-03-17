@@ -15,19 +15,6 @@ request_cpu: 500m
 request_memory: 500Mi
 limit_cpu: 1
 limit_memory: 1Gi
-hpa:
-  enabled: false
-  apiVersion: autoscaling/v1
-  kind: HorizontalPodAutoscaler
-  StabilizationWindowSeconds: 0
-  minReplicas: 1
-  maxReplicas: 3
-  targetCPUUtilizationPercentage: 40
-  Policies:
-    Value: 1
-    PeriodSeconds: 120
-    Value1: 40
-    PeriodSeconds1: 120
 keda:
   enabled: true
   apiversion: keda.sh/v1alpha1

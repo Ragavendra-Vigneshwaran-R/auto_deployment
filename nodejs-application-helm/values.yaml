@@ -2,8 +2,8 @@ apiversion: apps/v1
 app_name: nodejs-application-rvig
 labels:
   app: nodejs-backend-app
-imageTag: ragavendra1411/nodejs-backend-application:1.0.0
-port: 4000
+imageTag: ragavendra1411/front-end:1.0.0
+port: 3000
 replicaCount: 1
 svc_type: LoadBalancer
 serverURL: ZGF0YWJhc2UtMS5jZnZscmx5bWt4NW0udXMtZWFzdC0xLnJkcy5hbWF6b25hd3MuY29t

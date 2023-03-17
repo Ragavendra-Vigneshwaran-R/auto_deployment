@@ -18,6 +18,5 @@ spec:
   - type: {{ index $.Values "keda" "triggers" "type" }}
     metricType: {{ index $.Values "keda" "triggers" "metricType" }}
     metadata:
-      type: {{ index $.Values "keda" "triggers" "metricType" }}
       value: "{{ index $.Values "keda" "triggers" "value" }}"
 {{- end }}

@@ -1,0 +1,31 @@
+apiversion: apps/v1
+app_name: nodejs-application-rvig
+labels:
+  app: nodejs-backend-app
+imageTag: ragavendra1411/nodejs-backend-application:1.0.0
+port: 4000
+replicaCount: 1
+svc_type: LoadBalancer
+serverURL: ZGF0YWJhc2UtMS5jZnZscmx5bWt4NW0udXMtZWFzdC0xLnJkcy5hbWF6b25hd3MuY29t
+dbuser: cmFnYXY=
+dbpass: cmFnYXYxMjM0
+dbname: dXNlckRC
+dbport: MzMwNg==
+request_cpu: 500m
+request_memory: 500Mi
+limit_cpu: 1
+limit_memory: 1Gi
+hpa:
+  apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+  StabilizationWindowSeconds: 0
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 40
+  Policies:
+    Value: 1
+    PeriodSeconds: 120
+    Value1: 40
+    PeriodSeconds1: 120
+
+

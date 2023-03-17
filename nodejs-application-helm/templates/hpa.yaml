@@ -1,0 +1,15 @@
+apiVersion: {{ .Values.hpa.apiVersion }}
+kind: {{ .Values.hpa.kind }}
+metadata:
+  name: {{ .Values.app_name }}-hpa
+  annotations:
+    autoscaling.alpha.kubernetes.io/behavior: '{"ScaleUp":{"StabilizationWindowSeconds":{{ .Values.hpa.StabilizationWindowSeconds }},"SelectPolicy":"Max","Policies":[{"Type":"Pods","Value":{{ .Values.hpa.Policies.Value }},"PeriodSeconds":{{ .Values.hpa.Policies.PeriodSeconds }}},{"Type":"Percent","Value":{{ .Values.hpa.Policies.Value1 }},"PeriodSeconds":{{ .Values.hpa.Policies.PeriodSeconds1 }}}]},"ScaleDown":{"StabilizationWindowSeconds":{{ .Values.hpa.StabilizationWindowSeconds }},"SelectPolicy":"Max","Policies":[{"Type":"Pods","Value":{{ .Values.hpa.Policies.Value }},"PeriodSeconds":{{ .Values.hpa.Policies.PeriodSeconds }}}]}}'
+spec:
+  scaleTargetRef:
+    apiVersion: {{ .Values.apiversion }}
+    kind: Deployment
+    name: {{ .Values.app_name }}-dep
+  minReplicas: {{ .Values.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
+

@@ -14,6 +14,8 @@ spec:
   cooldownPeriod: {{ index $.Values "keda" "cooldownPeriod" }}                            
   minReplicaCount: {{ index $.Values "keda" "minReplicaCount" }}                             
   maxReplicaCount: {{ index $.Values "keda" "maxReplicaCount" }}
+  advanced:
+    restoreToOriginalReplicaCount: {{ index $.Values "keda" "advanced" "restoreToOriginalReplicaCount" }}   
   triggers:
   - type: {{ index $.Values "keda" "triggers" "type" }}
     metricType: {{ index $.Values "keda" "triggers" "metricType" }}

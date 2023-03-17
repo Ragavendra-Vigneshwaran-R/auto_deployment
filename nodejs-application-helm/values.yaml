@@ -11,9 +11,9 @@ dbuser: cmFnYXY=
 dbpass: cmFnYXYxMjM0
 dbname: dXNlckRC
 dbport: MzMwNg==
-request_cpu: 10m
+request_cpu: 50m
 request_memory: 100Mi
-limit_cpu: 20m
+limit_cpu: 100m
 limit_memory: 200Mi
 hpa:
   enabled: false

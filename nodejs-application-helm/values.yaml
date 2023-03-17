@@ -43,3 +43,8 @@ keda:
     value: 40
   advanced:
     restoreToOriginalReplicaCount: true 
+    stabilizationWindowSeconds: 0
+    policies:
+      type: Percent
+      value: 1
+      periodSeconds: 120

@@ -15,7 +15,15 @@ spec:
   minReplicaCount: {{ index $.Values "keda" "minReplicaCount" }}                             
   maxReplicaCount: {{ index $.Values "keda" "maxReplicaCount" }}
   advanced:
-    restoreToOriginalReplicaCount: {{ index $.Values "keda" "advanced" "restoreToOriginalReplicaCount" }}   
+    restoreToOriginalReplicaCount: {{ index $.Values "keda" "advanced" "restoreToOriginalReplicaCount" }} 
+    horizontalPodAutoscalerConfig:                   
+      behavior:                                      
+        scaleDown:
+          stabilizationWindowSeconds: {{ index $.Values "keda" "advanced" "stabilizationWindowSeconds" }}
+          policies:
+          - type: {{ index $.Values "keda" "advanced" "policies" "type" }}
+            value: {{ index $.Values "keda" "advanced" "policies" "value" }}
+            periodSeconds: {{ index $.Values "keda" "advanced" "policies" "periodSeconds" }}  
   triggers:
   - type: {{ index $.Values "keda" "triggers" "type" }}
     metricType: {{ index $.Values "keda" "triggers" "metricType" }}

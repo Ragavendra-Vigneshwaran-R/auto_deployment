@@ -1,3 +1,5 @@
+{{- $hpaEnabled:= index $.Values "hpa" "enabled" }}
+{{- if $hpaEnabled }}
 apiVersion: {{ .Values.hpa.apiVersion }}
 kind: {{ .Values.hpa.kind }}
 metadata:
@@ -12,4 +14,4 @@ spec:
   minReplicas: {{ .Values.hpa.minReplicas }}
   maxReplicas: {{ .Values.hpa.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.hpa.targetCPUUtilizationPercentage }}
-
+{{- end }}

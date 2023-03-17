@@ -11,10 +11,10 @@ dbuser: cmFnYXY=
 dbpass: cmFnYXYxMjM0
 dbname: dXNlckRC
 dbport: MzMwNg==
-request_cpu: 50m
-request_memory: 100Mi
-limit_cpu: 100m
-limit_memory: 200Mi
+request_cpu: 500m
+request_memory: 500Mi
+limit_cpu: 1
+limit_memory: 1Gi
 hpa:
   enabled: false
   apiVersion: autoscaling/v1
@@ -40,4 +40,4 @@ keda:
   triggers:
     type: cpu
     metricType: Utilization
-    value: 80
+    value: 40

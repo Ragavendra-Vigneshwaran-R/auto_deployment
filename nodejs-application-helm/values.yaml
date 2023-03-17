@@ -40,4 +40,4 @@ keda:
   triggers:
     type: cpu
     metricType: Utilization
-    value: "30"
+    value: 30

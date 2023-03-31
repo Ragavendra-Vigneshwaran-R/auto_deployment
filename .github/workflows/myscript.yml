@@ -1,8 +1,5 @@
 name: printIP
 on:
-  push:
-    branches:
-      - develop
   workflow_dispatch:
 jobs:
   run-script:

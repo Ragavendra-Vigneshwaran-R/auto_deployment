@@ -12,6 +12,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Run script
         run: |
-          ./automation-scripts/testin.sh --sharedIP ${{ secrets.SHARED_EC2_IP }} --sharedName ${{ secrets.SHARED_EC2_IP }} > output.txt
-      - name: Print output
-        run: cat output.txt
+          sudo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${{ secrets.SHARED_EC2_PEM_KEY }}  ${{ secrets.SHARED_EC2_Name }}@${{ secrets.SHARED_EC2_IP }} "mkdir /home/ubuntu/ragav /home/ubuntu/shihaab /home/ubuntu/simaq"

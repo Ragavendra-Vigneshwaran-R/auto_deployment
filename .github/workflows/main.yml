@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set up SSH keys
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SHARED_EC2_PEM_KEY }}" > ~/.ssh/auto-deployment.pem
+          chmod 600 ~/.ssh/auto-deployment.pem
       - name: Run script
         run: |
-          sudo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${{ secrets.SHARED_EC2_PEM_KEY }}  ${{ secrets.SHARED_EC2_Name }}@${{ secrets.SHARED_EC2_IP }} "mkdir /home/ubuntu/ragav /home/ubuntu/shihaab /home/ubuntu/simaq"
+          sudo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/.ssh/auto-deployment.pem  ${{ secrets.SHARED_EC2_Name }}@${{ secrets.SHARED_EC2_IP }} "mkdir /home/ubuntu/ragav /home/ubuntu/shihaab /home/ubuntu/simaq"

@@ -53,9 +53,11 @@ parseArgs(){
 #Get information on Keda
 function print_ip()
 {
-    echo ${SHARED_EC2_IP}@${SHARED_EC2_NAME} 
-    echo "Shared_IP"  : ${SHARED_EC2_IP}
-    echo "Shared_NAME"  : ${SHARED_EC2_NAME}
+  SHARED_EC2_IP=${1}
+  SHARED_EC2_NAME=${2}
+  echo "Shared_IP"  : ${SHARED_EC2_IP}
+  echo "Shared_NAME"  : ${SHARED_EC2_NAME}
+  echo ${SHARED_EC2_IP}@${SHARED_EC2_NAME} 
 }
 
 
@@ -63,5 +65,5 @@ function print_ip()
 # Main Declaration
 ###############################################################################
 # Parse input arguments
-#parseArgs "$@"
+parseArgs "$@"
 print_ip $sharedName $sharedIP

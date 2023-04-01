@@ -17,4 +17,4 @@ jobs:
           chmod 600 ~/.ssh/auto-deployment.pem
       - name: Run script
         run: |
-          ${{ secrets.SHARED_EC2_Name }} ${{ secrets.SHARED_EC2_IP }} ./automation-scripts/testin.sh
+          ./automation-scripts/testin.sh

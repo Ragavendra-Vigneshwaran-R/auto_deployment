@@ -24,7 +24,7 @@ jobs:
           ./automation-scripts/installkubectl.sh
       - uses: tale/kubectl-action@v1
         with:
-          base64-kube-config: ${{ secrets.KSHARED_EKS_KUBE_CONFIG }}
+          base64-kube-config: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
       - run: |
           ./automation-scripts/install_keda.sh
           

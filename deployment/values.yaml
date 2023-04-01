@@ -16,7 +16,7 @@ request_memory: 500Mi
 limit_cpu: 1
 limit_memory: 1Gi
 keda:
-  enabled: false
+  enabled: true
   apiversion: keda.sh/v1alpha1
   app_name: keda
   namespace: ragav

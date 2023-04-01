@@ -22,9 +22,9 @@ jobs:
       - name: Install Kubectl
         run: |
           ./automation-scripts/installkubectl.sh
-      - uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KSHARED_EKS_KUBE_CONFIG }}
       - run: |
           ./automation-scripts/install_keda.sh
           

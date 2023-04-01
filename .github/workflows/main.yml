@@ -25,11 +25,10 @@ jobs:
       - name: Install Kubectl
         run: |
           ./automation-scripts/installkubectl.sh
-      - name: Install Keda
-        uses: actions-hub/kubectl@master
+      - uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: /home/runner/.kube/config
-        run: |
+      - run: |
           ./automation-scripts/install_keda.sh
           
       

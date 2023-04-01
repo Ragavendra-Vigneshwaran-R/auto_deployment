@@ -27,6 +27,7 @@ jobs:
           ./automation-scripts/installkubectl.sh
       - name: Install Keda
         run: |
+          aws eks update-kubeconfig --region ${{ secrets.SHARED_EKS_REGION }} --name ${{ secrets.SHARED_EKS_NAME }}
           ./automation-scripts/install_keda.sh
       
           

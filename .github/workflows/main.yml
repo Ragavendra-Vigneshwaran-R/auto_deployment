@@ -16,9 +16,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      - name: Configure AWS EKS Cluster
-        run: |
-          aws eks update-kubeconfig --region ${{ secrets.SHARED_EKS_REGION }} --name ${{ secrets.SHARED_EKS_NAME }}
       - name: Install Helm
         run: |
           ./automation-scripts/installhelm.sh
@@ -27,7 +24,7 @@ jobs:
           ./automation-scripts/installkubectl.sh
       - uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG: /home/runner/.kube/config
+          KUBE_CONFIG: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
       - run: |
           ./automation-scripts/install_keda.sh
           

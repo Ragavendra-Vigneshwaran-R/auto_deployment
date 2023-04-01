@@ -27,6 +27,6 @@ jobs:
           ./automation-scripts/installkubectl.sh
       - name: Install Keda
         run: |
-          ./automation-scripts/installkeda.sh
+          ./automation-scripts/install_keda.sh
       
           

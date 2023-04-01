@@ -17,7 +17,7 @@ jobs:
           chmod 600 ~/.ssh/auto-deployment.pem
       - name: Run script
         run: |
-          sudo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/.ssh/auto-deployment.pem  ${{ secrets.SHARED_EC2_Name }}@${{ secrets.SHARED_EC2_IP }} "/home/ubuntu/auto_deployment/automation-scripts/testin.sh" > ~/output.txt
+          sudo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/.ssh/auto-deployment.pem  ${{ secrets.SHARED_EC2_Name }}@${{ secrets.SHARED_EC2_IP }} "${{ secrets.SHARED_EC2_Name }} ${{ secrets.SHARED_EC2_IP }} /home/ubuntu/auto_deployment/automation-scripts/testin.sh" > ~/output.txt
       - name: Show Output
         run: |
           cat ~/output.txt

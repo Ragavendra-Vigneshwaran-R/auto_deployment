@@ -25,6 +25,24 @@ jobs:
       - name: Set up kubectl
         run: |
           ./automation-scripts/installkubectl.sh  
+      - name: Install aws-iam-authenticator
+        run: |
+          sudo curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.3/aws-iam-authenticator_0.5.3_linux_amd64 -o /usr/local/bin/aws-iam-authenticator
+          sudo chmod +x /usr/local/bin/aws-iam-authenticator
+      - name: Authenticate with EKS cluster
+        run: |
+          aws-iam-authenticator token -i ${{ secrets.SHARED_EKS_NAME }} | sed -e 's/^ *//' | jq -r '.status + " " + .token' | {
+            read -r status token
+            if [[ "$status" == "Success" ]]; then
+              export AWS_SESSION_TOKEN=$(echo $token | jq -r .sessionToken)
+              export AWS_ACCESS_KEY_ID=$(echo $token | jq -r .accessKeyId)
+              export AWS_SECRET_ACCESS_KEY=$(echo $token | jq -r .secretAccessKey)
+            else
+              echo "Failed to authenticate with EKS cluster: $status"
+              exit 1
+            fi
+          }
+
       - name: Install Helm
         run: |
           ./automation-scripts/installhelm.sh  

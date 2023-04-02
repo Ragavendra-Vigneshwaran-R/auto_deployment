@@ -52,7 +52,10 @@ jobs:
         env:
           AWS_REGION: ${{ env.AWS_REGION }}
         run: |
-          ./automation-scripts/install_keda.sh
+          helm repo add kedacore https://kedacore.github.io/charts
+          helm repo update
+          kubectl create namespace keda
+          helm install keda kedacore/keda --namespace keda./automation-scripts/install_keda.sh
 
       
           

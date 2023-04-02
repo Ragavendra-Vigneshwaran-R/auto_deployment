@@ -16,14 +16,20 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBECONFIG" | base64 -d > ~/.kube/config
+        env:
+          KUBECONFIG: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
       - name: Set up kubectl
-        uses: docker/setup-kubectl@v1
+        run: |
+          ./automation-scripts/installkubectl.sh  
+      - name: Install Helm
+        uses: steebchen/helm@v2
         with:
-          kubeconfig: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
-      - name: Set up Helm
-        uses: helm/kind-action@v1.1.0
-
-      - name: Deploy to Kubernetes
+          version: 'v3.7.0'
+      - name: Install Keda
         run: |
           ./automation-scripts/install_keda.sh
       

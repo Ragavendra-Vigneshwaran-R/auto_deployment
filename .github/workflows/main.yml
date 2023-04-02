@@ -28,8 +28,6 @@ jobs:
       - name: Install Helm
         run: |
           ./automation-scripts/installhelm.sh  
-        with:
-          version: 'v3.7.0'
       - name: Install Keda
         run: |
           ./automation-scripts/install_keda.sh

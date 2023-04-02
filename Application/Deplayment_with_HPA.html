@@ -59,9 +59,45 @@
                         <div class="row d-flex align-items-center justify-content-center">
 
                             <div class="col-md-6">
-                                <form action="">
+                                <form action="http://localhost:8000/keda" method="post">
 
                                     <div class="card px-5 py-5">
+
+                                        <div class="form-input">
+                                           <div class="row py-3">
+
+                                                    <div class="col-md-6">
+                                                         <label for="">Cloud Providers  :</label>
+                                                    </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" value="aws" name="cloudprovider" id="yes">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            AWS
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" value="azure" name="cloudprovider" id="yes">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Azure
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" value="both" name="cloudprovider" id="yes">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Both
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                           </div>
+                                        </div>
 
                                         <div class="form-input">
                                                 <input type="text" class="form-control" name="dockerimage" placeholder="Docker Image">
@@ -76,8 +112,8 @@
                                                     <div class="row">
                                                             <div class="col">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="yes">
-                                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                                    <input class="form-check-input" type="radio" value="yes" name="Dedicated_cluster" id="yes" checked>
+                                                                    <label class="form-check-label"  >
                                                                     Yes
                                                                     </label>
                                                                 </div>
@@ -86,8 +122,8 @@
 
                                                             <div class="col">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="no" checked>
-                                                                    <label class="form-check-label" for="flexRadioDefault2">
+                                                                    <input class="form-check-input" type="radio" value="no" name="Dedicated_cluster" id="no" >
+                                                                    <label class="form-check-label">
                                                                     No
                                                                     </label>
                                                                 </div>

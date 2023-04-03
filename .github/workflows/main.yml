@@ -33,7 +33,6 @@ jobs:
         run: |
           ./automation-scripts/installkubectl.sh  
       - name: Install Helm
-        uses: steebchen/helm@v2
         run: |
           ./automation-scripts/installhelm.sh  
       - name: Install Keda

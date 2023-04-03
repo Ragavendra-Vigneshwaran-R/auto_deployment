@@ -27,6 +27,7 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "$KUBECONFIG" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
         env:
           KUBECONFIG: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
       - name: Set up kubectl

@@ -90,4 +90,4 @@ source .env
 GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
 GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
 parseArgs "$@"
-deploy_keda $dockerimage $maxpods $minpods $metrics $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN
+trigger_keda $dockerimage $maxpods $minpods $metrics $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN

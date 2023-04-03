@@ -1,8 +1,5 @@
 name: Deploy_Keda
 on:
-  push:
-    branches:
-      - develop
   workflow_dispatch:
     inputs:
       dockerimage:
@@ -51,13 +48,13 @@ jobs:
           ./automation-scripts/install_keda.sh
       - name: Clone github files to runner
         run: |
-          cd ~/ && git clone https://github.com/Ragavendra-Vigneshwaran-R/auto_deployment.git -b develop
+          ./automation-scripts/clonerepo.sh
       - name: Deploy the application with keda
         run: |
           ./automation-scripts/deploy_keda.sh --dockerimage ${{ inputs.dockerimage }} --maxpods ${{ inputs.maxpods }} --minpods ${{ inputs.minpods }} --metrics ${{ inputs.metrics }} --namespace ${{ inputs.namespace }}
       - name: Output
         run: |
-          output=$(/home/ubuntu/auto_deployment/automation-scripts/getkeda.sh --namespace $namespace)
+          output=$(./automation-scripts/getkeda.sh --namespace $namespace)
           echo "$output"
       - name: Remove github files
         run: |

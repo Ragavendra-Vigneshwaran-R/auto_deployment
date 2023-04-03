@@ -4,13 +4,6 @@ on:
     branches:
       - develop
   workflow_dispatch:
-
-env:
-  AWS_REGION: us-east-2
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  EKS_CLUSTER_NAME: ${{ secrets.SHARED_EKS_NAME }}
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -25,11 +18,7 @@ jobs:
           aws-region: us-east-2
       - name: Set up kubeconfig
         run: |
-          mkdir -p ~/.kube
-          echo "$KUBECONFIG" | base64 -d > ~/.kube/config
-          chmod 600 ~/.kube/config
-        env:
-          KUBECONFIG: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
+          aws eks update-kubeconfig --region ${{ secrets.SHARED_EKS_REGION }} --name ${{ secrets.SHARED_EKS_NAME }}
       - name: Set up kubectl
         run: |
           ./automation-scripts/installkubectl.sh  

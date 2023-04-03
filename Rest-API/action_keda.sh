@@ -1,9 +1,9 @@
 #!/bin/bash
 ###############################################################################
-# Name: deploy_keda.sh
+# Name: action_keda.sh
 ###############################################################################
 # Description:
-# To deploy keda for the required tenants
+# To trigger the github action which will deploy the application with keda
 ###############################################################################
 # Function Declaration
 ###############################################################################
@@ -65,29 +65,29 @@ parseArgs(){
   fi
 }
 
-#Deploy Keda
-function deploy_keda()
+function trigger_keda()
 {
     dockerimage=${1}
     maxpods=${2}
     minpods=${3}
     metrics=${4}
     namespace=${5}
-    echo "-.-.-.Deploying Keda.-.-.-"
-    kubectl create namespace $namespace
-    helm install $namespace-keda ~/auto_deployment/deployment/ --set keda.enabled=true --set imageTag=$dockerimage --set keda.namespace=$namespace --set keda.maxReplicaCount=$maxpods --set keda.minReplicaCount=$minpods --set keda.triggers.type=$metrics -n $namespace
-    if [ $? -eq  0 ]
-    then
-    console_msg "INFO: Docker Image is successfully deployment under the namespace" $namespace "."
-    else
-    console_msg "ERROR: Docker Image is failed to deploy under the namespace" $namespace "."
-    fi
+    GITHUB_REPOSITORY=${6}
+    GITHUB_TOKEN=${7}
+    JSON="{\"ref\":\"develop\",\"inputs\":{\"dockerimage\":\"$dockerimage\",\"maxpods\":\"$maxpods\",\"minpods\":\"$minpods\",\"metrics\":\"$metrics\",\"namespace\":\"$namespace\"}}"
+    curl -X POST \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/main.yml/dispatches \
+    -d "$JSON"
 }
-
 
 ###############################################################################
 # Main Declaration
 ###############################################################################
 # Parse input arguments
+source .env
+GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
+GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
 parseArgs "$@"
-deploy_keda $dockerimage $maxpods $minpods $metrics $namespace
+deploy_keda $dockerimage $maxpods $minpods $metrics $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN

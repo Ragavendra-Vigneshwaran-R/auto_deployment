@@ -1,4 +1,4 @@
-name: PrintIP
+name: Deploy_Keda
 on:
   push:
     branches:
@@ -13,49 +13,29 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
+    runs-on: auto-deploy-ec2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Install AWS CLI
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Set up kubeconfig
         run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-      - name: Install aws-iam-authenticator
-        run: |
-          sudo curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.3/aws-iam-authenticator_0.5.3_linux_amd64 -o /usr/local/bin/aws-iam-authenticator
-          sudo chmod +x /usr/local/bin/aws-iam-authenticator
-      - name: Install kubectl
-        run: |
-          sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2
-          curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-          echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-          sudo apt-get update
-          sudo apt-get install -y kubectl
-
-      - name: Install helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-      - name: Authenticate with EKS cluster
-        id: eks-auth
-        run: |
-          aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-          aws-iam-authenticator token -i $EKS_CLUSTER_NAME | jq -r '.status.token' | awk '{print "Authorization: Bearer " $1}' > /tmp/token
-          kubectl config set-credentials eks-user --token="$(cat /tmp/token)"
-          kubectl config set-context eks-context --cluster="$(kubectl config current-context)" --user=eks-user --namespace=default
-          kubectl config use-context eks-context
-
-      - name: Deploy to EKS cluster
+          mkdir -p ~/.kube
+          echo "$KUBECONFIG" | base64 -d > ~/.kube/config
         env:
-          AWS_REGION: ${{ env.AWS_REGION }}
+          KUBECONFIG: ${{ secrets.SHARED_EKS_KUBE_CONFIG }}
+      - name: Set up kubectl
         run: |
-          helm repo add kedacore https://kedacore.github.io/charts
-          helm repo update
-          kubectl create namespace keda
-          helm install keda kedacore/keda --namespace keda./automation-scripts/install_keda.sh
-
-      
-          
+          ./automation-scripts/installkubectl.sh  
+      - name: Install Helm
+        uses: steebchen/helm@v2
+        run: |
+          ./automation-scripts/installhelm.sh  
+      - name: Install Keda
+        run: |
+          ./automation-scripts/install_keda.sh

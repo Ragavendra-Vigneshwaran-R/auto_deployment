@@ -79,7 +79,6 @@ function deploy_keda()
     if [ $? -eq  0 ]
     then
     console_msg "INFO: Docker Image is successfully deployment under the namespace" $namespace "."
-    output=$(/home/ubuntu/auto_deployment/automation-scripts/getkeda.sh --namespace $namespace)
     else
     console_msg "ERROR: Docker Image is failed to deploy under the namespace" $namespace "."
     fi

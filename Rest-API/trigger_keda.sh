@@ -78,7 +78,7 @@ function trigger_keda()
     curl -X POST \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/main.yml/dispatches \
+    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/keda.yml/dispatches \
     -d "$JSON"
 }
 

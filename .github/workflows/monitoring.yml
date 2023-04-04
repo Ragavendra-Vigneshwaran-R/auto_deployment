@@ -1,0 +1,42 @@
+name: Deploy_Monitoring
+on:
+  workflow_dispatch:
+    inputs:
+      dockerimage:
+        description: "Docker Image of you application"
+        required: true
+        type: string
+      namespace:
+        description: "Namespace of the application"
+        required: true
+        type: string
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Set up kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ${{ secrets.SHARED_EKS_REGION }} --name ${{ secrets.SHARED_EKS_NAME }}
+      - name: Set up kubectl
+        run: |
+          ./automation-scripts/installkubectl.sh  
+      - name: Install Helm
+        run: |
+          ./automation-scripts/installhelm.sh  
+      - name: Clone github files to runner
+        run: |
+          ./automation-scripts/clonerepo.sh
+      - name: Deploy the application with monitoring
+        run: |
+          ./automation-scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+      - name: Remove github files
+        run: |
+          rm -rf ~/auto_deployment/

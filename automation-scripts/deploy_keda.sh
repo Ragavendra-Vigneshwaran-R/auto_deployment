@@ -3,7 +3,14 @@
 # Name: deploy_keda.sh
 ###############################################################################
 # Description:
-# To deploy keda for the required tenants
+# To deploy application with keda  for the required tenants
+###############################################################################
+# Usage
+# Run the below command for executing the script
+# ./deploy_keda.sh --dockerimage <dockerimage> --maxpods <maxpods> --minpods <minpods> --metrics <metrics> --namespace <namespace>
+# For help
+# ./deploy_keda.sh --help
+# ./deploy_keda.sh -h
 ###############################################################################
 # Function Declaration
 ###############################################################################
@@ -73,14 +80,14 @@ function deploy_keda()
     minpods=${3}
     metrics=${4}
     namespace=${5}
-    echo "-.-.-.Deploying Keda.-.-.-"
+    echo "-.-.-.Deploying application with Keda.-.-.-"
     kubectl create namespace $namespace
-    helm install $namespace-keda ~/auto_deployment/deployment/ --set keda.enabled=true --set imageTag=$dockerimage --set keda.namespace=$namespace --set keda.maxReplicaCount=$maxpods --set keda.minReplicaCount=$minpods --set keda.triggers.type=$metrics -n $namespace
+    helm install $namespace ~/auto_deployment/deployment/ --set keda.enabled=true --set imageTag=$dockerimage --set keda.namespace=$namespace --set keda.maxReplicaCount=$maxpods --set keda.minReplicaCount=$minpods --set keda.triggers.type=$metrics -n $namespace
     if [ $? -eq  0 ]
     then
-    console_msg "INFO: Docker Image is successfully deployment under the namespace" $namespace "."
+    console_msg "INFO: Docker Image is successfully deployment with keda under the namespace" $namespace "."
     else
-    console_msg "ERROR: Docker Image is failed to deploy under the namespace" $namespace "."
+    console_msg "ERROR: Docker Image is failed to deploy with keda under the namespace" $namespace "."
     fi
 }
 

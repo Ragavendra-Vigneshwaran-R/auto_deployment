@@ -2,7 +2,7 @@ const express = require('express');
 const session=require('express-session');
 const flash=require('connect-flash');
 var bodyParser = require('body-parser');
-
+const { exec } = require('child_process');
 
 
 const app = express();
@@ -19,6 +19,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
          //Home Page
 app.get('/', function (req, res) {
     res.sendFile(__dirname+'/Application/dashboard.html');
+    
     //res.send("Server is running at "+ port);
 });
 
@@ -73,9 +74,20 @@ app.post('/keda', urlencodedParser, (req, res) => {
     var min_pod=req.body.minimumpods;
     var max_pod=req.body.maximumpods;
     var metric=req.body.metrics;
+    //C:\Users\TAMILMANI\Desktop\Project1\auto_deployment\Rest-API
+    var yourscript = exec('sh ../Rest-API/trigger_keda.sh --dockerimage '+docker_image +' --maxpods '+max_pod+' --minpods '+min_pod+' --metrics '+metric+' --namespace '+namespace,
+        (error, stdout, stderr) => {
+            console.log(stdout);
+            console.log(stderr);
+            if (error !== null) {
+                console.log(`exec error: ${error}`);
+            }
+        });
    setTimeout(function () {
         console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace+ "--"+ min_pod+ "--"+ max_pod +"--"+ metric);
+        console.log(yourscript);
         res.sendStatus(200);
+
       }, 10000)
    
 

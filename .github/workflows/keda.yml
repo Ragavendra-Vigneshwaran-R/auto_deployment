@@ -57,6 +57,10 @@ jobs:
           sleep 120
           output=$(./automation-scripts/getkeda.sh --namespace ${{ inputs.namespace }})
           echo "$output"
+      - name: Domain
+        run: |
+          domain=$(./automation-scripts/getdomain.sh --namespace ${{ inputs.namespace }})
+          echo "$domain"
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

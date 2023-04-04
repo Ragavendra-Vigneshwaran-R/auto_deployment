@@ -37,6 +37,10 @@ jobs:
       - name: Deploy the application with monitoring
         run: |
           ./automation-scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+      - name: Domain
+        run: |
+          domain=$(./automation-scripts/getdomain.sh --namespace ${{ inputs.namespace }})
+          echo "$domain"
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

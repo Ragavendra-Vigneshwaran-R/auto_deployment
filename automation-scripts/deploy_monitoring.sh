@@ -71,11 +71,11 @@ function deploy_monitoring()
     else
     console_msg "ERROR: Docker Image is failed to deploy under the namespace" $namespace "."
     fi
-    output=$(~/auto_deployment/automation_scripts/install_monitoring.sh)
+    output=$(~/auto_deployment/automation-scripts/install_monitoring.sh)
     echo "$output"
 }
 
-
+/home/ragav/auto-deployment/
 ###############################################################################
 # Main Declaration
 ###############################################################################

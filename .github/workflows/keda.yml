@@ -1,4 +1,4 @@
-name: My Script
+name: Deploy_Keda
 on:
   push:
     branches:

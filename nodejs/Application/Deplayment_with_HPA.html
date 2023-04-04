@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  
+     <title>Deplayment With HPA(Keda)</title>
+</head>
+<style>
+ 
+    .main{
+        background-color:#f0f2f4;
+        text-align: center;
+        font-style: poppins;
+        width: 98%;
+        margin: 0 auto;
+        padding: 5px;
+    }
+    .main .header{
+        padding: 10px;
+        background-color: #011f3d;
+        color: white;
+    }
+    .height{
+        height: 100vh;
+       }
+    .card{
+        border:none;
+        padding: 20px;
+        color: rgb(5, 5, 5);
+
+       }
+       .form-input{
+        position: relative;
+        margin-bottom: 10px;
+        margin-top: 10px;
+       }
+    .form-control{
+            height: 50px;
+            text-indent: 24px;
+            font-size: 15px;
+        }
+
+  
+ 
+        
+        .footer{
+    background-color:#011f3d;
+    color: white;
+    text-align: center;
+    font-style: poppins;
+    width: 98%;
+    margin: 0 auto;
+    height: 100px;
+
+
+   }
+   .site-footer
+{
+  background-color:#26272b;
+  padding:45px 0 20px;
+  font-size:15px;
+  line-height:24px;
+  color:#737373;
+}
+.site-footer hr
+{
+  border-top-color:#bbb;
+  opacity:0.5
+}
+.site-footer hr.small
+{
+  margin:20px 0
+}
+.site-footer h6
+{
+  color:#fff;
+  font-size:16px;
+  text-transform:uppercase;
+  margin-top:5px;
+  letter-spacing:2px
+}
+.site-footer a
+{
+  color:#737373;
+}
+.site-footer a:hover
+{
+  color:#3366cc;
+  text-decoration:none;
+}
+.footer-links
+{
+  padding-left:0;
+  list-style:none
+}
+.footer-links li
+{
+  display:block
+}
+.footer-links a
+{
+  color:#737373
+}
+.footer-links a:active,.footer-links a:focus,.footer-links a:hover
+{
+  color:#3366cc;
+  text-decoration:none;
+}
+.footer-links.inline li
+{
+  display:inline-block
+}
+ 
+ 
+ 
+@media (max-width:991px)
+{
+  .site-footer [class^=col-]
+  {
+    margin-bottom:30px
+  }
+}
+@media (max-width:767px)
+{
+  .site-footer
+  {
+    padding-bottom:0
+  }
+  .site-footer .copyright-text,.site-footer .social-icons
+  {
+    text-align:center
+  }
+}
+ /*loading css*/
+ .lds-facebook {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: black;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.96s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.48s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(4) {
+  left: 76px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(5) {
+  left: 96px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+  50%, 100% {
+    top: 44px;
+    height: 32px;
+  }
+  50%, 100% {
+    top: 64px;
+    height: 32px;
+  }
+}
+#loading{
+  display: none;
+} 
+    
+       
+    
+</style>
+<body>
+    <div class="main">
+        <div class="header">
+            <h2>Deployment With Keda</h2>
+        </div>
+        
+         <!--Form content start-->
+            <div class="container mt-5 mb-5">
+
+                        <div class="row d-flex align-items-center justify-content-center">
+
+                            <div class="col-md-6">
+                                <form action="http://localhost:8000/keda" method="post">
+
+                                    <div class="card px-5 py-5">
+
+                                        <div class="form-input">
+                                           <div class="row py-3">
+
+                                                    <div class="col-md-6">
+                                                         <label for="">Cloud Providers  :</label>
+                                                    </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" value="aws" name="cloudprovider" checked id="yes">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            AWS
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" value="azure" name="cloudprovider" id="yes">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Azure
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" value="both" name="cloudprovider" id="yes">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Both
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                           </div>
+                                        </div>
+
+                                        <div class="form-input">
+                                                <input type="text" class="form-control" name="dockerimage" placeholder="Docker Image">
+                                            </div>
+
+                                            <div class="row">
+                                                    <div class="col py-3" >
+                                                        <Label class="form-control" style="border: none;font-size: 18px; ">Dedicated Cluster :</Label> 
+                                                </div>
+                                                <div class="col py-4">
+                                                    
+                                                    <div class="row">
+                                                            <div class="col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" value="yes" name="Dedicated_cluster" id="yes" checked>
+                                                                    <label class="form-check-label"  >
+                                                                    Yes
+                                                                    </label>
+                                                                </div>
+                                                                
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" value="no" name="Dedicated_cluster" id="no" >
+                                                                    <label class="form-check-label">
+                                                                    No
+                                                                    </label>
+                                                                </div>
+                                                                    
+                                                            </div>
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+
+                                        
+                                            <div class="form-input">
+                                                <input type="text" class="form-control" name="maximumpods" placeholder="Maximum Pods">      
+                                            </div>
+
+                                            <div class="form-input">
+                                                <input type="text" class="form-control" name="minimumpods" placeholder="Minimum Pods">
+                                            </div>
+
+                                            <div class="form-input">
+                                                <input type="text" class="form-control" name="metrics"  placeholder="Metrics">      
+                                            </div>
+                                            <div class="form-input">
+                                                <input type="text" class="form-control" name="namespace" placeholder="Namespace">      
+                                            </div>
+                    
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <button id="formsubmitbutton" class="btn btn-primary mt-5 " type="submit"  name="submit" onclick=" ButtonClicked()" >OK</button>
+                                            </div>
+                                            <div class="col">
+                                                <a href="http://localhost:8000/features" class="btn btn-danger mt-5"      >Cancel </a>
+                                            </div>
+
+                                        </div>
+                                        
+                                    
+                                    </div>
+                                </form>
+
+                                <div id="loading">
+                                  <div class="lds-facebook"><div></div><div></div><div></div><div></div><div></div></div>
+                                </div>
+
+                                
+                            </div>
+                        
+                        </div>
+                    
+             </div>
+        <!--Form content end-->
+        <br>
+    </div>
+
+
+   
+     <!--Footer content start-->
+     <div  id="footer-body"  >
+        <div class="footer">
+      
+    
+            <footer class="site-footer">
+              <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3">
+                      <h6>Tools</h6>
+                      <ul class="footer-links">
+                        <li><a href="https://kubernetes.io/docs/home/">Kubernetes</a></li>
+                        <li><a href= "https://helm.sh/docs/">Helm</a></li>
+                        <li><a href="https://argo-cd.readthedocs.io/en/stable/">ArgoCD</a></li>
+                        <li><a href="https://keda.sh/docs/2.9/">Keda</a></li>
+                        <li><a href="https://www.elastic.co/guide/index.html">Kibana</a></li>
+                        <li><a href="https://grafana.com/docs/">Grafana</a></li>
+                        <li><a href="https://prometheus.io/docs/introduction/overview/">Prometheus</a></li>
+                      </ul>
+                    </div>
+        
+                      <div class="col-xs-6 col-md-3">
+                        <h6>Developer's Names</h6>
+                        <h5>Ragavendra vigneshwaran R</h5>
+                        <h5>Tamilmani K</h5>
+                        <h5>Simaqahamed R S</h5>
+                        <h5>Shihaabhuvairish N</h5>
+                        
+                      </div>
+        
+                    <div class="col-xs-6 col-md-3">
+                      <h6>Email IDs</h6>
+                      <a href = "mailto: ragavendravigneshwaranr.19it@kongu.edu">Ragavendra vigneshwaran R</a>
+                      <br>
+                      <a href = "mailto: tamilmanik.19it@kongu.edu">Tamilmani K</a>
+                      <br>
+                      <a href = "mailto: simaqahamedrs.19it@kongu.edu">Simaqahamed R S</a>
+                      <br>
+                      <a href = "mailto: shihaabhuvairishn.19it@kongu.edu">Shihaabhuvairish N</a>
+                      
+                    </div>
+      
+                    <div class="col-xs-6 col-md-3">
+                      <h6>Contact Number</h6>
+                      <h6><a href="tel:8610772047">Ragavendra vigneshwaran R</a></h6>
+                      <h6><a href="tel:7010416422">Tamilmani K</a></h6>
+                      <h6><a href="tel:9677799255">Simaqahamed R S</a></h6>
+                      <h6><a href="tel:9677720575">Shihaabhuvairish N</a></h6>
+                       
+                    </div>
+                </div>
+               
+        </footer>
+     </div>
+      
+     <!--Footer content end-->
+</body>
+</html>
+ 
+<script type="text/javascript">
+function ButtonClicked(){
+   document.getElementById("loading").style.display = "block";  
+   return true;
+}
+var FirstLoading = true;
+function RestoreSubmitButton()
+{
+   if( FirstLoading )
+   {
+      FirstLoading = false;
+      return;
+   }
+
+   document.getElementById("loading").style.display = "none";  
+}
+ 
+document.onfocus = RestoreSubmitButton;
+ 
+</script>
+ 
+ 
+ 
+ 

@@ -1,19 +1,56 @@
 const express = require('express');
-var bodyParser = require('body-parser')
+const session=require('express-session');
+const flash=require('connect-flash');
+var bodyParser = require('body-parser');
+
 
 
 const app = express();
-var port=8000
+app.use(session({
+    secret:'flashblog',
+    saveUninitialized:true,
+    resave:true
+}));
+app.use(flash());
+
+var port=8000;
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-
+         //Home Page
 app.get('/', function (req, res) {
-res.send("Server is running at "+ port);
+    res.sendFile(__dirname+'/Application/dashboard.html');
+    //res.send("Server is running at "+ port);
 });
 
-app.get('/r',(req,res)=>{
-    res.send("ok");
+app.get('/features',(req,res)=>{
+    res.sendFile(__dirname+'/Application/features.html');
 });
+
+
+app.get('/deployment_with_HPA',(req,res)=>{
+    res.sendFile(__dirname+'/Application/Deplayment_with_HPA.html');
+});
+
+app.get('/deployment_with_CLS',(req,res)=>{
+    res.sendFile(__dirname+'/Application/deployment_with_CLS.html');
+});
+
+
+app.get('/deployment_with_CICD',(req,res)=>{
+    res.sendFile(__dirname+'/Application/deployment_with_CICD.html');
+});
+
+
+app.get('/deployment_with_monitoring',(req,res)=>{
+    res.sendFile(__dirname+'/Application/Deployment_with_monitoring.html');
+});
+
+
+app.get('/deployment_with_multifeature',(req,res)=>{
+    res.sendFile(__dirname+'/Application/multifeature.html');
+});
+
+
 
 app.post('/cls', urlencodedParser, (req, res) => {
     var selected_cloud=req.body.cloudprovider;
@@ -21,7 +58,9 @@ app.post('/cls', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + " "+ dedicated_cluster+ " "+ namespace);
-    res.sendStatus(200);
+    setTimeout(()=>{
+        res.sendStatus(200);
+    },10000)
 
 });
 
@@ -34,8 +73,11 @@ app.post('/keda', urlencodedParser, (req, res) => {
     var min_pod=req.body.minimumpods;
     var max_pod=req.body.maximumpods;
     var metric=req.body.metrics;
-    console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace+ "--"+ min_pod+ "--"+ max_pod +"--"+ metric);
-    res.sendStatus(200);
+   setTimeout(function () {
+        console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace+ "--"+ min_pod+ "--"+ max_pod +"--"+ metric);
+        res.sendStatus(200);
+      }, 10000)
+   
 
 });
 
@@ -46,7 +88,9 @@ app.post('/cicd', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace);
-    res.sendStatus(200);
+    setTimeout(()=>{
+        res.sendStatus(200);
+    },10000)
 
 });
 
@@ -57,7 +101,9 @@ app.post('/monitoring', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace);
-    res.sendStatus(200);
+    setTimeout(()=>{
+        res.sendStatus(200);
+    },10000)
 
 });
 
@@ -78,9 +124,11 @@ app.post('/multi-feature', urlencodedParser, (req, res) => {
     var monitoring_namespace=req.body.monitoring_namespace;
     //console.log(req.body);
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+min_pod+"--"+ max_pod+"--"+keda+"--"+cicd+"--"+cicd_namespace+"--"+cls+"--"+cls_namespace+"--"+monitoring+"--"+monitoring_namespace);
-    res.sendStatus(200);
+    setTimeout(()=>{
+        res.sendStatus(200);
+    },10000)
 
-});-
+});
 
 app.listen(port,()=>{
     console.log("Server is running @ "+ port);

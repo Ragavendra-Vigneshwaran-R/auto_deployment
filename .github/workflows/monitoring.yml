@@ -1,4 +1,4 @@
-name: Monitoring
+name: Deploy_Monitoring
 on:
   push:
     branches:

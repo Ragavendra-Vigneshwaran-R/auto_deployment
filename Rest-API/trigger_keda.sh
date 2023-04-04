@@ -93,8 +93,8 @@ function trigger_keda()
 # Main Declaration
 ###############################################################################
 # Parse input arguments
-#source .env
-GITHUB_REPOSITORY=$(echo "UmFnYXZlbmRyYS1WaWduZXNod2FyYW4tUi9hdXRvX2RlcGxveW1lbnQK" | base64 -d)
-GITHUB_TOKEN=$(echo "Z2hwX1JWV1hHMGkxUVBsUFU4SmZWZ1I1bURKWTM1WDFhSDRNTzVwYQo=" | base64 -d)
+source .env
+GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
+GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
 parseArgs "$@"
 trigger_keda $dockerimage $maxpods $minpods $metrics $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN

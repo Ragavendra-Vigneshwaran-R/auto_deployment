@@ -28,10 +28,10 @@ else
 echo "Monitoring already installed, skipping the installation process.."
 fi
 sleep 200
-prometheus_url=$(kubectl get svc prometheus-kube-prometheus-prometheus -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n monitoring)
+prometheus_url=$(kubectl get svc prometheus-kube-prometheus-prometheus -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n monitoring)
 prometheus_port="9090"
 prometheus_endpoint=$(echo $prometheus_url:$prometheus_port)
-grafana_endpoint=$(kubectl get svc prometheus-grafana -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n monitoring)
+grafana_endpoint=$(kubectl get svc prometheus-grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n monitoring)
 grafana_username="admin"
 grafana_pass="cHJvbS1vcGVyYXRvcgo="
 grafana_password=$(echo $grafana_pass | base64 -d)

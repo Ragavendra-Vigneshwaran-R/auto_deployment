@@ -1,16 +1,16 @@
 #!/bin/bash
 ###############################################################################
-# Name: trigger_keda.sh
+# Name: trigger_monitoring.sh
 ###############################################################################
 # Description:
-# To trigger the github action which will deploy the application with keda
+# To trigger the github action which will deploy the application with monitoring
 ###############################################################################
 # Usage
 # Run the below command for executing the script
-# ./trigger_keda.sh --dockerimage <dockerimage> --maxpods <maxpods> --minpods <minpods> --metrics <metrics> --namespace <namespace>
+# ./trigger_monitoring.sh --dockerimage <dockerimage> --namespace <namespace>
 # For help
-# ./trigger_keda.sh --help
-# ./trigger_keda.sh -h
+# ./trigger_monitoring.sh --help
+# ./trigger_monitoring.sh -h
 ###############################################################################
 # Function Declaration
 ###############################################################################
@@ -27,9 +27,6 @@ function console_msg {
 # Usage of this script
 usage() {
   echo " --dockerimage - Docker Image"
-  echo " --maxpods     - Maximum Pods needs to be allocated"
-  echo " --minpods     - Minimum Pods needs to be allocated"
-  echo " --metrics     - Metrics of the HPA"
   echo " --namespace   - Namespce in which the deployment to be deployed"
   echo " -h|--help     - Show this help message"
   echo ""
@@ -44,18 +41,6 @@ parseArgs(){
       --dockerimage)
         dockerimage=${1}
       ;;
-      --maxpods)
-        maxpods=${1}
-        shift
-      ;;
-	  --minpods)
-        minpods=${1}
-        shift
-      ;;
-	  --metrics)
-        metrics=${1}
-        shift
-      ;;
 	  --namespace)
         namespace=${1}
         shift
@@ -65,27 +50,24 @@ parseArgs(){
       ;;
 	esac
   done
-  if ! [[ $dockerimage && $maxpods && $minpods && $metrics && $namespace  ]]
+  if ! [[ $dockerimage && $namespace  ]]
   then
     console_msg "Error: Invalid Arguments"
     usage
   fi
 }
 
-function trigger_keda()
+function trigger_monitoring()
 {
     dockerimage=${1}
-    maxpods=${2}
-    minpods=${3}
-    metrics=${4}
-    namespace=${5}
-    GITHUB_REPOSITORY=${6}
-    GITHUB_TOKEN=${7}
-    JSON="{\"ref\":\"develop\",\"inputs\":{\"dockerimage\":\"$dockerimage\",\"maxpods\":\"$maxpods\",\"minpods\":\"$minpods\",\"metrics\":\"$metrics\",\"namespace\":\"$namespace\"}}"
+    namespace=${2}
+    GITHUB_REPOSITORY=${3}
+    GITHUB_TOKEN=${4}
+    JSON="{\"ref\":\"develop\",\"inputs\":{\"dockerimage\":\"$dockerimage\",\"namespace\":\"$namespace\"}}"
     curl -X POST \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/keda.yml/dispatches \
+    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/monitoring.yml/dispatches \
     -d "$JSON"
 }
 
@@ -97,4 +79,4 @@ source .env
 GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
 GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
 parseArgs "$@"
-trigger_keda $dockerimage $maxpods $minpods $metrics $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN
+trigger_monitoring $dockerimage $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN

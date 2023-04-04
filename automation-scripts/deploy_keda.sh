@@ -82,7 +82,7 @@ function deploy_keda()
     namespace=${5}
     echo "-.-.-.Deploying application with Keda.-.-.-"
     kubectl create namespace $namespace
-    helm install $namespace ~/auto_deployment/deployment/ --set keda.enabled=true --set imageTag=$dockerimage --set keda.maxReplicaCount=$maxpods --set keda.minReplicaCount=$minpods --set keda.triggers.type=$metrics -n $namespace
+    helm install $namespace ~/auto_deployment/deployment/ --set keda.enabled=true --set keda.namespace=$namespace --set imageTag=$dockerimage --set keda.maxReplicaCount=$maxpods --set keda.minReplicaCount=$minpods --set keda.triggers.type=$metrics -n $namespace
     if [ $? -eq  0 ]
     then
     console_msg "INFO: Docker Image is successfully deployment with keda under the namespace" $namespace "."

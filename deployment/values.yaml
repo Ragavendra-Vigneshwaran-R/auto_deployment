@@ -19,7 +19,7 @@ keda:
   enabled: false
   apiversion: keda.sh/v1alpha1
   app_name: keda
-  namespace: ragav
+  namespace: keda
   pollingInterval:  3   
   cooldownPeriod:   30    
   minReplicaCount:  1 

@@ -11,7 +11,7 @@
 ###############################################################################
 # Main Declaration
 ###############################################################################
-check_folder=$(cd ~/auto_deployment/)
+check_folder=$(cd ~/auto_deployment/ > /dev/null 2>&1)
 if [ $? -eq 0 ]
 then
 rm -rf ~/auto_deployment/

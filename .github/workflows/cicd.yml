@@ -1,4 +1,4 @@
-name: Deploy_Monitoring
+name: Deploy_CICD
 on:
   workflow_dispatch:
     inputs:

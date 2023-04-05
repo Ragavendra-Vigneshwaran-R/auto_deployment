@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       dockerimage:
-        description: "Docker Image of you application"
+        description: "Docker Image of your application"
         required: true
         type: string
       maxpods:

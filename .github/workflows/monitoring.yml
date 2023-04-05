@@ -27,19 +27,23 @@ jobs:
           aws eks update-kubeconfig --region ${{ secrets.SHARED_EKS_REGION }} --name ${{ secrets.SHARED_EKS_NAME }}
       - name: Set up kubectl
         run: |
-          ./automation-scripts/installkubectl.sh  
+          ./automation-scripts/installation_scripts/installkubectl.sh
       - name: Install Helm
         run: |
-          ./automation-scripts/installhelm.sh  
+          ./automation-scripts/installation_scripts/installhelm.sh
       - name: Clone github files to runner
         run: |
-          ./automation-scripts/clonerepo.sh
+          ./automation-scripts/cloning_scripts/clonerepo.sh
       - name: Deploy the application with monitoring
         run: |
-          ./automation-scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+          ./automation-scripts/deployment_scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+      - name: Monitoring
+        run: |
+          output=$(~/auto_deployment/automation-scripts/output_scripts/getmonitoring.sh)
+          echo "$output"
       - name: Domain
         run: |
-          domain=$(./automation-scripts/getdomain.sh --namespace ${{ inputs.namespace }})
+          domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
           echo "$domain"
       - name: Remove github files
         run: |

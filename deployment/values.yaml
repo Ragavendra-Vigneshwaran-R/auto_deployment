@@ -6,11 +6,6 @@ imageTag: ragavendra1411/front-end:1.0.0
 port: 3000
 replicaCount: 1
 svc_type: LoadBalancer
-serverURL: ZGF0YWJhc2UtMS5jZnZscmx5bWt4NW0udXMtZWFzdC0xLnJkcy5hbWF6b25hd3MuY29t
-dbuser: cmFnYXY=
-dbpass: cmFnYXYxMjM0
-dbname: dXNlckRC
-dbport: MzMwNg==
 request_cpu: 500m
 request_memory: 500Mi
 limit_cpu: 1

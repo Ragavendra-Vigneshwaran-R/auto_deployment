@@ -1,0 +1,39 @@
+apiVersion: {{ index $.Values "apiVersion" }}
+kind: StatefulSet
+metadata:
+  name: {{ index $.Values "elastic-search" "name" }}
+spec:
+  serviceName: {{ index $.Values "elastic-search" "name" }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ index $.Values "elastic-search" "name" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index $.Values "elastic-search" "name" }}
+    spec:
+      containers:
+      - name: {{ index $.Values "elastic-search" "name" }}
+        image: {{ index $.Values "elastic-search" "image" "registry" }}/{{ index $.Values "elastic-search" "image" "name" }}:{{ index $.Values "elastic-search" "image" "Tag" }}
+        ports:
+        - containerPort: {{ index $.Values "elastic-search" "http-containerPort" }}
+          name: http
+        - containerPort: {{ index $.Values "elastic-search" "transport-containerPort" }}
+          name: transport
+        resources:
+{{ toYaml (index $.Values "elastic-search" "resources") | indent 10 }}
+        env:
+        - name: discovery.type
+          value: {{ index $.Values "elastic-search" "discover-type"  | quote }}
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/elasticsearch/data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ {{ index $.Values "elastic-search" "accessModes" | quote }} ]
+      resources:
+        requests:
+          storage: {{ index $.Values "elastic-search" "storage" }}

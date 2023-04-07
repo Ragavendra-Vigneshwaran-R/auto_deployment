@@ -1,0 +1,14 @@
+apiVersion: {{ index $.Values "elastic-search" "svc" "apiVersion" }}
+kind: Service
+metadata:
+  name: {{ index $.Values "elastic-search" "name" }}
+  labels:
+    app: {{ index $.Values "elastic-search" "name" }}
+spec:
+  selector:
+    app: {{ index $.Values "elastic-search" "name" }}
+  ports:
+    - name: http
+      port: {{ index $.Values "elastic-search" "http-containerPort" }}
+      targetPort: {{ index $.Values "elastic-search" "http-containerPort" }}
+  clusterIP: None

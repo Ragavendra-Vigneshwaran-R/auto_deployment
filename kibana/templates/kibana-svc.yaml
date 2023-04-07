@@ -1,0 +1,14 @@
+apiVersion: {{ index $.Values "kibana" "svc" "apiVersion" }}
+kind: Service
+metadata:
+  name: {{ index $.Values "kibana" "name" }}
+  labels:
+    app: {{ index $.Values "kibana" "name" }}
+spec:
+  selector:
+    app: {{ index $.Values "kibana" "name" }}
+  ports:
+    - name: http
+      port: {{ index $.Values "kibana" "http-containerPort" }}
+      targetPort: {{ index $.Values "kibana" "http-containerPort" }}
+  type: {{ index $.Values "kibana" "svc" "type" }}

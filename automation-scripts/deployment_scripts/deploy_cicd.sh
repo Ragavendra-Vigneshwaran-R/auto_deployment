@@ -60,28 +60,38 @@ parseArgs(){
 #Deploy Keda
 function deploy_cicd()
 {
-    dockerimage=${1}
-    namespace=${2}
-    sleep 200
-    argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    argocd_username="admin"
-    argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
-    argocd_token=$(~/auto_deployment/automation-scripts/deployment_scripts/generate_argocd_token.sh --username $argocd_username --password $argocd_password --serverurl $argocd_endpoint)
-    sed -i "s/my-namespace/$namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
-    sed -i "s/my-dockerimage/$dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
-    curl -X POST \
-    -H "Authorization: Bearer $argocd_token" \
-    -H "Content-Type: application/json" \
-    -d @~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json \
-    https://argocd-server/api/v1/applications
-    if [[ $? -eq 0 ]]
-    then
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."
-    else
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.ERROR: Application is failed to deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."
-    fi
-    sed -i "s/$namespace/my-namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
-    sed -i "s/$dockerimage/my-dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  dockerimage=${1}
+  namespace=${2}
+  sleep 200
+  argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  argocd_username="admin"
+  argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+  argocd_token=$(~/auto_deployment/automation-scripts/deployment_scripts/generate_argocd_token.sh --username $argocd_username --password $argocd_password --serverurl $argocd_endpoint)
+  sed -i "s/my-namespace/$namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  sed -i "s/my-dockerimage/$dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  curl -X POST \
+  -H "Authorization: Bearer $argocd_token" \
+  -H "Content-Type: application/json" \
+  -d @~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json \
+  https://argocd-server/api/v1/applications
+  if [[ $? -eq 0 ]]
+  then
+  echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."
+  else
+  echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.ERROR: Application is failed to deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."
+  fi
+  sed -i "s/$namespace/my-namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  sed -i "s/$dockerimage/my-dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  sleep 100
+  curl -X DELETE \
+    -H "Authorization: $argocd_token" \
+    https://argocd-server/api/v1/session
+  if [[ $? -eq 0 ]]
+  then
+  echo "INFO: Successfully deleted the argocd token"
+  else
+  echo "ERROR: Failed to delete the argocd token"
+  fi
 }
 
 

@@ -87,6 +87,12 @@ function trigger_keda()
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/keda.yml/dispatches \
     -d "$JSON"
+    if [[ $? -eq 0 ]]
+    then
+    console_msg "INFO: Successfully triggered the deployment with keda"
+    else
+    exit_error "ERROR: Failed to trigger the deployment with keda"
+    fi
 }
 
 ###############################################################################

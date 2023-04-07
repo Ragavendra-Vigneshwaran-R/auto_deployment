@@ -69,6 +69,12 @@ function trigger_monitoring()
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/monitoring.yml/dispatches \
     -d "$JSON"
+    if [[ $? -eq 0 ]]
+    then
+    console_msg "INFO: Successfully triggered the deployment with monitoring"
+    else
+    exit_error "ERROR: Failed to trigger the deployment with monitoring"
+    fi
 }
 
 ###############################################################################

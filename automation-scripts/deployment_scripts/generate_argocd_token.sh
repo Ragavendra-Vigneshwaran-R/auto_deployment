@@ -73,7 +73,7 @@ function generate_token()
     username=${1}
     password=${2}
     serverurl=${3}
-    argocd login $serverurl --username $username --password $password --insecure
+    argocd login $serverurl --username $username --password $password --insecure  > /dev/null 2>&1
     token=$(argocd account generate-token --account ragav)
     echo "$token"
 
@@ -85,5 +85,5 @@ function generate_token()
 ###############################################################################
 # Parse input arguments
 parseArgs "$@"
-install_argocd_cli
+#install_argocd_cli
 generate_token $username $password $serverurl

@@ -63,7 +63,7 @@ function deploy_cicd()
   dockerimage=${1}
   namespace=${2}
   sleep 200
-  argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
   argocd_username="admin"
   argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
   argocd_token=$(~/auto_deployment/automation-scripts/deployment_scripts/generate_argocd_token.sh --username $argocd_username --password $argocd_password --serverurl $argocd_endpoint)

@@ -11,7 +11,7 @@
 ###############################################################################
 # Main Declaration
 ###############################################################################
-argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 argocd_username="admin"
 argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 argocd_resources=$(kubectl get all -n argocd)

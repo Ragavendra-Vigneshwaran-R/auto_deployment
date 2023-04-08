@@ -11,9 +11,7 @@
         "path": "./deployment/",
         "targetRevision": "develop",
         "helm": {
-            "values": {
-              "imageTag": "my-dockerimage"
-            }
+            "values": "imageTag: my-dockerimage"
           }  
       },
       "destination": {

@@ -66,9 +66,11 @@ function deploy_cicd()
   argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
   argocd_username="admin"
   argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
-  argocd_token=$(~/auto_deployment/automation-scripts/deployment_scripts/generate_argocd_token.sh --username $argocd_username --password $argocd_password --serverurl $argocd_endpoint)
-  sed -i "s/my-namespace/$namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
-  sed -i "s/my-dockerimage/$dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  argocd login $argocd_endpoint --username $argocd_username --password $argocd_password --insecure
+  argocd_token=$(argocd account generate-token --account ragav)
+  kubectl create ns $namespace
+  sed -i "s|my-namespace|"$namespace"|g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
+  sed -i "s|my-dockerimage|"$dockerimage"|g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
   curl --insecure -X POST \
   -H "Authorization: Bearer $argocd_token" \
   -H "Content-Type: application/json" \
@@ -80,8 +82,6 @@ function deploy_cicd()
   else
   echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.ERROR: Application is failed to deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."
   fi
-  sed -i "s/$namespace/my-namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
-  sed -i "s/$dockerimage/my-dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
   curl --insecure -X DELETE \
     -H "Authorization: $argocd_token" \
     https://$argocd_endpoint/api/v1/session

@@ -18,6 +18,7 @@ function install_argocd(){
     kubectl create namespace argocd
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
     kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+    kubectl apply -f ~/auto_deployment/automation-scripts/installation_scripts/argocd-user.yml -n argocd
     else
     echo "Argocd is already installed, skipping the installation process.."
     fi

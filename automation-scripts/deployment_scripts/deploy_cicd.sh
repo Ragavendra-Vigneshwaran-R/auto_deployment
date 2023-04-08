@@ -72,7 +72,7 @@ function deploy_cicd()
   curl -X POST \
   -H "Authorization: Bearer $argocd_token" \
   -H "Content-Type: application/json" \
-  -d @~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json \
+  -d @/home/ubuntu/auto_deployment/automation-scripts/deployment_scripts/app-spec.json \
   https://$argocd_endpoint/api/v1/applications
   if [[ $? -eq 0 ]]
   then
@@ -82,7 +82,6 @@ function deploy_cicd()
   fi
   sed -i "s/$namespace/my-namespace/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
   sed -i "s/$dockerimage/my-dockerimage/g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
-  sleep 100
   curl -X DELETE \
     -H "Authorization: $argocd_token" \
     https://$argocd_endpoint/api/v1/session

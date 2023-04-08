@@ -11,6 +11,16 @@
 ###############################################################################
 # Main Declaration
 ###############################################################################
+function exit_error {
+  echo "[`date`] ${*}"
+  exit 1
+}
+
+# Write message to stdout
+function console_msg {
+  echo "[`date`] ${*}"
+}
+
 check_folder=$(cd ~/auto_deployment/ > /dev/null 2>&1)
 if [ $? -eq 0 ]
 then

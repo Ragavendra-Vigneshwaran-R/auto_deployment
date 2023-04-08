@@ -1,0 +1,25 @@
+apiVersion: {{ index $.Values "apiVersion" }}
+kind: Deployment
+metadata:
+  name: {{ index $.Values "kibana" "name" }}
+  labels:
+    app: {{ index $.Values "kibana" "name" }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ index $.Values "kibana" "name" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index $.Values "kibana" "name" }}
+    spec:
+      containers:
+      - name: {{ index $.Values "kibana" "name" }}
+        image: {{ index $.Values "kibana" "image" "registry" }}/{{ index $.Values "kibana" "image" "name" }}:{{ index $.Values "kibana" "image" "Tag" }}
+        ports:
+        - containerPort: {{ index $.Values "kibana" "http-containerPort" }}
+          name: http
+        env:
+        - name: ELASTICSEARCH_HOSTS
+          value: {{ index $.Values "kibana" "ELASTICSEARCH_HOSTSs" }}

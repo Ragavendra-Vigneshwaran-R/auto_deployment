@@ -1,16 +1,16 @@
 #!/bin/bash
 ###############################################################################
-# Name: deploy_monitoring.sh
+# Name: getkeda.sh
 ###############################################################################
 # Description:
-# To deploy application with monitoring for the required tenants
+# To deploy keda for the required tenants
 ###############################################################################
 # Usage
-# Run the below command for executing the script
-# ./deploy_monitoring.sh --dockerimage <dockerimage> --namespace <namespace>
+# Run the below command
+# ./getkeda.sh --namespace <namespace>
 # For help
-# ./deploy_monitoring.sh --help
-# ./deploy_monitoring.sh -h
+# ./getkeda.sh --help
+# ./getkeda.sh -h
 ###############################################################################
 # Function Declaration
 ###############################################################################
@@ -26,7 +26,6 @@ function console_msg {
 
 # Usage of this script
 usage() {
-  echo " --dockerimage - Docker Image"
   echo " --namespace   - Namespce in which the deployment to be deployed"
   echo " -h|--help     - Show this help message"
   echo ""
@@ -38,9 +37,6 @@ parseArgs(){
     arg=$1
     shift
     case $arg in
-      --dockerimage)
-        dockerimage=${1}
-      ;;
 	  --namespace)
         namespace=${1}
         shift
@@ -50,29 +46,25 @@ parseArgs(){
       ;;
 	esac
   done
-  if ! [[ $dockerimage && $namespace  ]]
+  if ! [[ $namespace  ]]
   then
     console_msg "Error: Invalid Arguments"
     usage
   fi
 }
 
-#Deploy Keda
-function deploy_monitoring()
+#Get information on Keda
+function get_keda()
 {
-    dockerimage=${1}
-    namespace=${2}
-    echo "-.-.-.Deploying application with monitoring.-.-.-"
-    kubectl create namespace $namespace
-    helm install $namespace ~/auto_deployment/deployment/ --set keda.enabled=false --set imageTag=$dockerimage -n $namespace
-    if [ $? -eq  0 ]
-    then
-    console_msg "INFO: Docker Image is successfully deployment under the namespace" $namespace "."
-    else
-    console_msg "ERROR: Docker Image is failed to deploy under the namespace" $namespace "."
-    fi
-    output=$(~/auto_deployment/automation-scripts/install_monitoring.sh)
-    echo "$output"
+    namespace=${1}
+    sleep 120
+    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.HPA of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    kubectl get hpa -n $namespace
+    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Scaled Objects of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    kubectl get ScaledObjects -n $namespace
+    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Keda Resources of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    kubectl get all -n keda
+    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with Keda .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
 }
 
 
@@ -81,4 +73,5 @@ function deploy_monitoring()
 ###############################################################################
 # Parse input arguments
 parseArgs "$@"
-deploy_monitoring $dockerimage $namespace
+get_keda $namespace
+

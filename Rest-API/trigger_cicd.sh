@@ -1,16 +1,16 @@
 #!/bin/bash
 ###############################################################################
-# Name: getkeda.sh
+# Name: trigger_cicd.sh
 ###############################################################################
 # Description:
-# To deploy keda for the required tenants
+# To trigger the github action which will deploy the application with monitoring
 ###############################################################################
 # Usage
-# Run the below command
-# ./getkeda.sh --namespace <namespace>
+# Run the below command for executing the script
+# ./trigger_cicd.sh --dockerimage <dockerimage> --namespace <namespace>
 # For help
-# ./getkeda.sh --help
-# ./getkeda.sh -h
+# ./trigger_cicd.sh --help
+# ./trigger_cicd.sh -h
 ###############################################################################
 # Function Declaration
 ###############################################################################
@@ -26,6 +26,7 @@ function console_msg {
 
 # Usage of this script
 usage() {
+  echo " --dockerimage - Docker Image"
   echo " --namespace   - Namespce in which the deployment to be deployed"
   echo " -h|--help     - Show this help message"
   echo ""
@@ -37,6 +38,9 @@ parseArgs(){
     arg=$1
     shift
     case $arg in
+      --dockerimage)
+        dockerimage=${1}
+      ;;
 	  --namespace)
         namespace=${1}
         shift
@@ -46,30 +50,39 @@ parseArgs(){
       ;;
 	esac
   done
-  if ! [[ $namespace  ]]
+  if ! [[ $dockerimage && $namespace  ]]
   then
     console_msg "Error: Invalid Arguments"
     usage
   fi
 }
 
-#Get information on Keda
-function get_keda()
+function trigger_cicd()
 {
-    namespace=${1}
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.HPA of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
-    kubectl get hpa -n $namespace
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Scaled Objects of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
-    kubectl get ScaledObjects -n $namespace
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Keda Resources of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
-    kubectl get all -n keda
+    dockerimage=${1}
+    namespace=${2}
+    GITHUB_REPOSITORY=${3}
+    GITHUB_TOKEN=${4}
+    JSON="{\"ref\":\"develop\",\"inputs\":{\"dockerimage\":\"$dockerimage\",\"namespace\":\"$namespace\"}}"
+    curl -X POST \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/cicd.yml/dispatches \
+    -d "$JSON"
+    if [[ $? -eq 0 ]]
+    then
+    console_msg "INFO: Successfully triggered the deployment with CICD"
+    else
+    exit_error "ERROR: Failed to trigger the deployment with CICD"
+    fi
 }
-
 
 ###############################################################################
 # Main Declaration
 ###############################################################################
 # Parse input arguments
+source .env
+GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
+GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
 parseArgs "$@"
-get_keda $namespace
-
+trigger_cicd $dockerimage $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN

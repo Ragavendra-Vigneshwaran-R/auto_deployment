@@ -1,16 +1,16 @@
 #!/bin/bash
 ###############################################################################
-# Name: trigger_monitoring.sh
+# Name: deploy_monitoring.sh
 ###############################################################################
 # Description:
-# To trigger the github action which will deploy the application with monitoring
+# To deploy application with monitoring for the required tenants
 ###############################################################################
 # Usage
 # Run the below command for executing the script
-# ./trigger_monitoring.sh --dockerimage <dockerimage> --namespace <namespace>
+# ./deploy_monitoring.sh --dockerimage <dockerimage> --namespace <namespace>
 # For help
-# ./trigger_monitoring.sh --help
-# ./trigger_monitoring.sh -h
+# ./deploy_monitoring.sh --help
+# ./deploy_monitoring.sh -h
 ###############################################################################
 # Function Declaration
 ###############################################################################
@@ -57,33 +57,28 @@ parseArgs(){
   fi
 }
 
-function trigger_monitoring()
+#Deploy Keda
+function deploy_monitoring()
 {
     dockerimage=${1}
     namespace=${2}
-    GITHUB_REPOSITORY=${3}
-    GITHUB_TOKEN=${4}
-    JSON="{\"ref\":\"develop\",\"inputs\":{\"dockerimage\":\"$dockerimage\",\"namespace\":\"$namespace\"}}"
-    curl -X POST \
-    -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/monitoring.yml/dispatches \
-    -d "$JSON"
-    if [[ $? -eq 0 ]]
+    echo "-.-.-.Deploying application with monitoring.-.-.-"
+    kubectl create namespace $namespace
+    helm install $namespace ~/auto_deployment/deployment/ --set keda.enabled=false --set imageTag=$dockerimage -n $namespace
+    if [ $? -eq  0 ]
     then
-    console_msg "INFO: Successfully triggered the deployment with monitoring"
+    console_msg "INFO: Docker Image is successfully deployment under the namespace" $namespace "."
     else
-    exit_error "ERROR: Failed to trigger the deployment with monitoring"
+    console_msg "ERROR: Docker Image is failed to deploy under the namespace" $namespace "."
     fi
+    output=$(~/auto_deployment/automation-scripts/installation_scripts/install_monitoring.sh)
+    echo "$output"
 }
+
 
 ###############################################################################
 # Main Declaration
 ###############################################################################
 # Parse input arguments
-source .env
-GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
-GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
-
 parseArgs "$@"
-trigger_monitoring $dockerimage $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN
+deploy_monitoring $dockerimage $namespace

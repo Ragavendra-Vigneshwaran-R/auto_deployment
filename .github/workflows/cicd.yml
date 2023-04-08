@@ -1,4 +1,4 @@
-name: Deploy_Monitoring
+name: Deploy_CICD
 on:
   workflow_dispatch:
     inputs:
@@ -34,12 +34,15 @@ jobs:
       - name: Clone github files to runner
         run: |
           ./automation-scripts/cloning_scripts/clonerepo.sh
-      - name: Deploy the application with monitoring
+      - name: Install ArgoCD
         run: |
-          ./automation-scripts/deployment_scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
-      - name: Monitoring
+          ./automation-scripts/installation_scripts/install_argocd.sh
+      - name: Deploy the application with ArgoCD
         run: |
-          output=$(~/auto_deployment/automation-scripts/output_scripts/getmonitoring.sh)
+          ./automation-scripts/deployment_scripts/deploy_cicd.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+      - name: ArgoCD
+        run: |
+          output=$(~/auto_deployment/automation-scripts/output_scripts/getcicd.sh)
           echo "$output"
       - name: Domain
         run: |

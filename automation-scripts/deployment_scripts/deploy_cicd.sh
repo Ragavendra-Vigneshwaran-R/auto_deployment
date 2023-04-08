@@ -62,7 +62,7 @@ function deploy_cicd()
 {
   dockerimage=${1}
   namespace=${2}
-  sleep 200
+  sleep 100
   argocd_endpoint=$(kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
   argocd_username="admin"
   argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
@@ -73,7 +73,7 @@ function deploy_cicd()
   -H "Authorization: Bearer $argocd_token" \
   -H "Content-Type: application/json" \
   -d @~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json \
-  https://argocd-server/api/v1/applications
+  https://$argocd_endpoint/api/v1/applications
   if [[ $? -eq 0 ]]
   then
   echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."
@@ -85,7 +85,7 @@ function deploy_cicd()
   sleep 100
   curl -X DELETE \
     -H "Authorization: $argocd_token" \
-    https://argocd-server/api/v1/session
+    https://$argocd_endpoint/api/v1/session
   if [[ $? -eq 0 ]]
   then
   echo "INFO: Successfully deleted the argocd token"

@@ -64,8 +64,9 @@ parseArgs(){
 
 function install_argocd_cli()
 {
-    curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.15.1/argocd-linux-amd64
-    chmod +x /usr/local/bin/argocd
+    curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+    rm argocd-linux-amd64
 }
 function generate_token()
 {

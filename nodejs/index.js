@@ -85,7 +85,7 @@ app.post('/keda', urlencodedParser, (req, res) => {
         });
    setTimeout(function () {
         console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace+ "--"+ min_pod+ "--"+ max_pod +"--"+ metric);
-        console.log(yourscript);
+       // console.log(yourscript);
         res.sendStatus(200);
 
       }, 10000)
@@ -113,7 +113,16 @@ app.post('/monitoring', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace);
+   var yourscript = exec('sh ../Rest-API/trigger_monitoring.sh --dockerimage '+ docker_image +' --namespace '+namespace,
+    (error, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+    });
     setTimeout(()=>{
+       // console.log(yourscript);
         res.sendStatus(200);
     },10000)
 

@@ -9,6 +9,32 @@
     <title>Deployment With CICD(ArgoCD)</title>
 </head>
 <style>
+   *{
+    margin: 0;
+    padding: 0;
+    overflow: none;
+    box-sizing: border-box;
+    font-family: 'poppins',sans-serif;
+  }
+  .holder{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 10px;
+  }
+  .form_container{
+    background: #fff;
+    width: 800px;
+    max-width: 800px;
+    padding: 25px 40px 10px 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+  .form_container input[type=text]{
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+  }
     .main{
        background-color:#f0f2f4;
        text-align: center;
@@ -129,7 +155,65 @@
     text-align:center
   }
 }
- 
+ /*loading css*/
+ .lds-facebook {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: black;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.96s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.48s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(4) {
+  left: 76px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(5) {
+  left: 96px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+  50%, 100% {
+    top: 44px;
+    height: 32px;
+  }
+  50%, 100% {
+    top: 64px;
+    height: 32px;
+  }
+}
+#loading{
+  display:none;
+  padding-bottom: 20px;
+  margin-left: 38%;
+}  
+      
 
        
 </style>
@@ -138,118 +222,108 @@
         <div class="header">
             <h2>Deployment With CICD</h2>
         </div>
-         <!--Form content start-->
-            <div class="container mt-5 mb-5">
+      </div>
+  
+      <div class="holder">
+          <div class="form_container">
+                <form action="http://localhost:8000/cicd" method="post">
 
-                        <div class="row d-flex align-items-center justify-content-center">
+                  <div class="card px-5 py-5">
 
-                            <div class="col-md-6">
-                                <form action="http://localhost:8000/cicd" method="post">
+                      
+                      <div class="form-input">
+                          <div class="row py-3">
 
-                                    <div class="card px-5 py-5">
+                                  <div class="col-md-6">
+                                        <label for="">Cloud Providers  :</label>
+                                  </div>
 
-                                        
-                                        <div class="form-input">
-                                            <div class="row py-3">
- 
-                                                     <div class="col-md-6">
-                                                          <label for="">Cloud Providers  :</label>
-                                                     </div>
- 
-                                                 <div class="col-md-2">
-                                                     <div class="form-check">
-                                                         <input class="form-check-input" type="radio" value="aws" name="cloudprovider" id="yes">
-                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                             AWS
-                                                         </label>
-                                                     </div>
-                                                 </div>
- 
-                                                 <div class="col-md-2">
-                                                     <div class="form-check">
-                                                         <input class="form-check-input" type="radio" value="azure" name="cloudprovider" id="yes">
-                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                             Azure
-                                                         </label>
-                                                     </div>
-                                                 </div>
- 
-                                                 <div class="col-md-2">
-                                                     <div class="form-check">
-                                                         <input class="form-check-input" type="radio" name="cloudprovider"value="both" id="yes">
-                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                             Both
-                                                         </label>
-                                                     </div>
-                                                 </div>
-                                            </div>
-                                         </div>
+                              <div class="col-md-2">
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" value="aws" name="cloudprovider" checked id="yes">
+                                      <label class="form-check-label" for="flexRadioDefault1">
+                                          AWS
+                                      </label>
+                                  </div>
+                              </div>
 
-                                        <div class="form-input">
-                                                <input type="text" class="form-control" name="dockerimage" placeholder="Docker Image">
-                                            </div>
+                              <div class="col-md-2">
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" value="azure" name="cloudprovider" id="yes">
+                                      <label class="form-check-label" for="flexRadioDefault1">
+                                          Azure
+                                      </label>
+                                  </div>
+                              </div>
 
-                                            <div class="row">
-                                                    <div class="col py-3" >
-                                                        <Label class="form-control" style="border: none;font-size: 18px; ">Dedicated Cluster :</Label> 
-                                                </div>
-                                                <div class="col py-4">
-                                                    
-                                                    <div class="row">
-                                                            <div class="col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" value="yes" type="radio" name="Dedicated_cluster" id="yes" checked>
-                                                                    <label class="form-check-label" for="flexRadioDefault1">
-                                                                    Yes
-                                                                    </label>
-                                                                </div>
-                                                                
-                                                            </div>
+                              <div class="col-md-2">
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="cloudprovider"value="both" id="yes">
+                                      <label class="form-check-label" for="flexRadioDefault1">
+                                          Both
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
 
-                                                            <div class="col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="Dedicated_cluster" id="no" value="no">
-                                                                    <label class="form-check-label" for="flexRadioDefault2">
-                                                                    No
-                                                                    </label>
-                                                                </div>
-                                                                    
-                                                            </div>
-                                                    </div>
-                                                
-                                                </div>
-                                            </div>
-
-                                        
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="namespace" placeholder="Namespace">      
-                                            </div>
-
-                                            
-                                        <div class="row">
-                                            <div class="col">
-                                                <button class="btn btn-primary mt-5 "  name="submit">OK</button>
-                                            </div>
-                                            <div class="col">
-                                                <a href="http://localhost:8000/features" class="btn btn-danger mt-5"  >Cancel </a>
-                                            </div>
-
-                                        </div>
-                                        
-                                    
-                                    </div>
-                                </form>
-
-
-                                
+                        <div class="form-input">
+                            <div class="row">
+                              <div class="col-md-4 p-3  "><label for="">Docker Image</label></div>
+                              <div class="col-md-8"><input type="text" class="form-control" name="dockerimage" placeholder="Docker Image"></div>
                             </div>
-                        
-                        </div>
-                    
-             </div>
-        <!--Form content end-->
-         
-    </div>
+                          </div>
+
+                          <div class="row p-4">
+                            <div class="col-md-6" style="margin-left:-20px ;" >
+                                <Label >Dedicated Cluster </Label> 
+                            </div>
+                              <div class="col-md-3">                            
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" value="yes" checked name="Dedicated_cluster" id="yes">
+                                      <label class="form-check-label" for="flexRadioDefault1">
+                                      Yes
+                                      </label>
+                                  </div>
+                              </div>
+                            <div class="col-md-3">                            
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" value="no" name="Dedicated_cluster"  >
+                                  No
+                                  </label>
+                              </div>
+                          </div>
+                    </div>
+
+
+ 
+                      
+                          <div class="form-input">
+                            <div class="row">
+                              <div class="col-md-4 p-3"><label for="">Namespace</label></div>
+                              <div class="col-md-8"> <input type="text" class="form-control" name="namespace" placeholder="Namespace"></div>
+                           </div>    
+                          </div>
+
+                          
+                      <div class="row">
+                          <div class="col">
+                              <button class="btn btn-primary mt-5 "  name="submit" onclick="ButtonClicked()">Launch</button>
+                          </div>
+                          <div class="col">
+                              <a href="http://localhost:8000/features" class="btn btn-danger mt-5"  >Cancel </a>
+                          </div>
+
+                      </div>
+                      
+                  
+                  </div>
+              </form>
+              <div id="loading">
+                <div class="lds-facebook"><div></div><div></div><div></div><div></div><div></div></div>
+              </div>
+          </div>
+        </div>
 
 
 
@@ -314,3 +388,24 @@
       <!--Footer content end-->
 </body>
 </html>
+ 
+<script type="text/javascript">
+  function ButtonClicked(){
+     document.getElementById("loading").style.display = "block";  
+     return true;
+  }
+  var FirstLoading = true;
+  function RestoreSubmitButton()
+  {
+     if( FirstLoading )
+     {
+        FirstLoading = false;
+        return;
+     }
+  
+     document.getElementById("loading").style.display = "none";  
+  }
+   
+  document.onfocus = RestoreSubmitButton;
+   
+  </script>

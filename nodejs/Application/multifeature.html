@@ -9,7 +9,32 @@
      <title>Multi Features Deployment</title>
 </head>
 <style>
- 
+   *{
+    margin: 0;
+    padding: 0;
+    overflow: none;
+    box-sizing: border-box;
+    font-family: 'poppins',sans-serif;
+  }
+  .holder{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 10px;
+  }
+  .form_container{
+    background: #fff;
+    width: 800px;
+    max-width: 800px;
+    padding: 25px 40px 10px 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+  .form_container input[type=text]{
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+  }
     .main{
         background-color:#f0f2f4;
         text-align: center;
@@ -188,7 +213,10 @@
 }
 #loading{
   display: none;
+  padding-bottom: 20px;
+  margin-left: 38%;
 } 
+    
     
 </style>
 <body>
@@ -196,264 +224,234 @@
         <div class="header">
             <h2>Multi Features Deployment</h2>
         </div>
-         <!--Form content start-->
-            <div class="container mt-5 mb-5">
+      </div>
+       
+        <div class="holder">
+          <div class="form_container">
+                   <form action="http://localhost:8000/multi-feature" method="post">
 
-                        <div class="row d-flex align-items-center justify-content-center">
+                    <div class="card px-5 py-5">
 
-                            <div class="col-md-6">
-                                <form action="http://localhost:8000/multi-feature" method="post">
-
-                                    <div class="card px-5 py-5">
-
-                                        
-                                        <div class="form-input">
-                                            <div class="row py-3">
- 
-                                                     <div class="col-md-6">
-                                                          <label for="">Cloud Providers  :</label>
-                                                     </div>
- 
-                                                 <div class="col-md-2">
-                                                     <div class="form-check">
-                                                         <input class="form-check-input" type="radio" name="cloudprovider" checked value="aws" id="yes">
-                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                             AWS
-                                                         </label>
-                                                     </div>
-                                                 </div>
- 
-                                                 <div class="col-md-2">
-                                                     <div class="form-check">
-                                                         <input class="form-check-input" type="radio" name="cloudprovider" value="azure" id="yes">
-                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                             Azure
-                                                         </label>
-                                                     </div>
-                                                 </div>
- 
-                                                 <div class="col-md-2">
-                                                     <div class="form-check">
-                                                         <input class="form-check-input" type="radio" name="cloudprovider" value="both" id="yes">
-                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                             Both
-                                                         </label>
-                                                     </div>
-                                                 </div>
-                                            </div>
-                                         </div>
-
-                                        <div class="form-input">
-                                                <input type="text" class="form-control" name="dockerimage" placeholder="Docker Image">
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col py-3" >
-                                                    <Label class="form-control" style="border: none;font-size: 18px; ">Dedicated Cluster </Label> 
-                                            </div>
-                                            <div class="col py-4">
-                                                
-                                                <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="Dedicated_cluster" checked id="yes" value="yes">
-                                                                <label class="form-check-label" >
-                                                                Yes
-                                                                </label>
-                                                            </div>
-                                                            
-                                                        </div>
-
-                                                        <div class="col">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="Dedicated_cluster" id="no" value="no">
-                                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                                No
-                                                                </label>
-                                                            </div>
-                                                                
-                                                        </div>
-                                                </div>
-                                            
-                                            </div>
-                                        </div>
-
-                                            <div class="row">
-                                                    <div class="col py-3" >
-                                                        <Label class="form-control" style="border: none;font-size: 18px; ">KEDA : </Label> 
-                                                </div>
-                                                <div class="col py-4">
-                                                    
-                                                    <div class="row">
-                                                            <div class="col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="KEDA" checked id="yes" value="yes">
-                                                                    <label class="form-check-label" for="flexRadioDefault1">
-                                                                    Yes
-                                                                    </label>
-                                                                </div>
-                                                                
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="KEDA" id="no" value="no"  >
-                                                                    <label class="form-check-label" for="flexRadioDefault2">
-                                                                    No
-                                                                    </label>
-                                                                </div>
-                                                                    
-                                                            </div>
-                                                    </div>
-                                                
-                                                </div>
-                                            </div>
-
-                                        
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="maximumpods" placeholder="Maximum Pods">      
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="minimumpods" placeholder="Minimum Pods">
-                                            </div>
-                                            <br>
-
-                                            <div class="row">
-                                                <div class="col py-3" >
-                                                    <Label class="form-control" style="border: none;font-size: 18px; ">CICD</Label> 
-                                            </div>
-                                            <div class="col py-4">
-                                                
-                                                <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="CICD" id="yes" checked value="yes">
-                                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                                Yes
-                                                                </label>
-                                                            </div>
-                                                            
-                                                        </div>
-
-                                                        <div class="col">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="CICD" id="no"  value="no">
-                                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                                No
-                                                                </label>
-                                                            </div>
-                                                                
-                                                        </div>
-                                                </div>
-                                            
-                                            </div>
-                                        </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="CICD_namespace"  placeholder="CICD Namespace">      
-                                            </div>
-
-
-                                            <div class="row">
-                                                <div class="col py-3" >
-                                                    <Label class="form-control" style="border: none;font-size: 18px; ">CLS</Label> 
-                                            </div>
-                                            <div class="col py-4">
-                                                
-                                                <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="CLS" id="yes" checked value="yes">
-                                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                                Yes
-                                                                </label>
-                                                            </div>
-                                                            
-                                                        </div>
-
-                                                        <div class="col">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="CLS" id="no"  value="no">
-                                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                                No
-                                                                </label>
-                                                            </div>
-                                                                
-                                                        </div>
-                                                </div>
-                                            
-                                            </div>
-                                        </div>
-
-                                        <div class="form-input">
-                                            <input type="text" class="form-control" name="CLS_namespace" placeholder="CLS Namespace">      
-                                        </div>
-                                        
-
-                                        <div class="row">
-                                            <div class="col py-3" >
-                                                <Label class="form-control" style="border: none;font-size: 18px; ">Monitoring</Label> 
-                                        </div>
-                                        <div class="col py-4">
-                                            
-                                            <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="monitoring" checked id="yes" value="yes">
-                                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                            Yes
-                                                            </label>
-                                                        </div>
-                                                        
-                                                    </div>
-
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="monitoring" id="no" value="no" >
-                                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                            No
-                                                            </label>
-                                                        </div>
-                                                            
-                                                    </div>
-                                            </div>
-                                        
-                                        </div>
-                                    </div>
-                    
-                                    <div class="form-input">
-                                        <input type="text" class="form-control" name="monitoring_namespace" placeholder="Monitoring Namespace">      
-                                    </div>
-                                    
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <button class="btn btn-primary mt-5 "  name="submit"  onclick=" ButtonClicked()" >OK</button>
-                                            </div>
-                                            <div class="col">
-                                                <a href="http://localhost:8000/features" class="btn btn-danger mt-5"      >Cancel </a>
-                                            </div>
-
-                                        </div>
-                                        
-                                    
-                                    </div>
-                                </form>
-                                <div id="loading">
-                                    <div class="lds-facebook"><div></div><div></div><div></div><div></div><div></div></div>
-                                  </div>
-
-
-                                
-                            </div>
                         
+                        <div class="form-input">
+                            <div class="row py-3">
+
+                                    <div class="col-md-6">
+                                          <label for="">Cloud Providers  :</label>
+                                    </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cloudprovider" checked value="aws" id="yes">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            AWS
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cloudprovider" value="azure" id="yes">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Azure
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cloudprovider" value="both" id="yes">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Both
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="form-input">
+                          <div class="row">
+                            <div class="col-md-4 p-3  "><label for="">Docker Image</label></div>
+                            <div class="col-md-8"><input type="text" class="form-control" name="dockerimage" placeholder="Docker Image" required></div>
+                          </div>
+                      </div>
+
+
+                      <div class="row p-4">
+                            <div class="col-md-6"  style="margin-left:-20px ;">
+                                <Label >Dedicated Cluster :</Label> 
+                            </div>
+                            <div class="col ">                            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="yes" name="Dedicated_cluster" checked id="yes">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                    Yes
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col ">                            
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" value="no" name="Dedicated_cluster"  >
+                                  No
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
+
+
+
+                      <div class="row p-4">
+                              <div class="col-md-6"  style="margin-left:-20px ;">
+                                  <Label >KEDA :</Label> 
+                              </div>
+                              <div class="col ">                            
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" value="yes" name="KEDA" checked  id="yes">
+                                      <label class="form-check-label" for="flexRadioDefault">
+                                      Yes
+                                      </label>
+                                  </div>
+                              </div>
+                              <div class="col ">                            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="no" name="KEDA"  >
+                                    No
+                                    </label>
+                                </div>
+                            </div>
+                       </div>
+
+  
+
+                       <div class="form-input">
+                        <div class="row">
+                          <div class="col-md-4 p-3  "><label for="">Maximum Pods</label></div>
+                          <div class="col-md-8"><input type="text" class="form-control" name="maximumpods" checked placeholder="Maximum Pods" required></div>
+                        </div>
+                    </div>   
                     
-             </div>
-        <!--Form content end-->
+                    
+                    <div class="form-input">
+                      <div class="row">
+                        <div class="col-md-4 p-3  "><label for="">Minimum Pods</label></div>
+                        <div class="col-md-8"><input type="text" class="form-control" name="minimumpods" placeholder="Minimum Pods" required></div>
+                      </div>
+                    </div>  
+
+                        
+                             
+                                <div class="row p-4">
+                                  <div class="col-md-6"  style="margin-left:-20px ;">
+                                      <Label >CICD :</Label> 
+                                  </div>
+                                  <div class="col ">                            
+                                      <div class="form-check">
+                                          <input class="form-check-input" type="radio" value="yes" name="CICD" checked  id="yes">
+                                          <label class="form-check-label" for="flexRadioDefault">
+                                          Yes
+                                          </label>
+                                      </div>
+                                  </div>
+                                  <div class="col ">                            
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="no" name="CICD"  >
+                                        No
+                                        </label>
+                                    </div>
+                                </div>
+                          </div>
+
+
+                          <div class="form-input">
+                            <div class="row">
+                              <div class="col-md-4 p-3  "><label for="">CICD Namespace</label></div>
+                              <div class="col-md-8"><input type="text" class="form-control"   name="CICD_namespace"  placeholder="CICD Namespace" required></div>
+                            </div>
+                          </div> 
+
+                          
+                                <div class="row p-4">
+                                  <div class="col-md-6"  style="margin-left:-20px ;">
+                                      <Label >CLS :</Label> 
+                                  </div>
+                                  <div class="col ">                            
+                                      <div class="form-check">
+                                          <input class="form-check-input" type="radio" value="yes" name="CLS" checked  id="yes">
+                                          <label class="form-check-label" for="flexRadioDefault">
+                                          Yes
+                                          </label>
+                                      </div>
+                                  </div>
+                                  <div class="col ">                            
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="no" name="CLS"  >
+                                        No
+                                        </label>
+                                    </div>
+                                </div>
+                             </div>
+
+                             <div class="form-input">
+                              <div class="row">
+                                <div class="col-md-4 p-3  "><label for="">CLS Namespace</label></div>
+                                <div class="col-md-8"><input type="text" class="form-control"    name="CLS_namespace" placeholder="CLS Namespace" required></div>
+                              </div>
+                            </div> 
+
+                            <div class="row p-4">
+                              <div class="col-md-6"  style="margin-left:-20px ;">
+                                  <Label >Monitoring :</Label> 
+                              </div>
+                              <div class="col ">                            
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" value="yes" name="monitoring" checked  id="yes">
+                                      <label class="form-check-label" for="flexRadioDefault">
+                                      Yes
+                                      </label>
+                                  </div>
+                              </div>
+                              <div class="col ">                            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="no" name="monitoring" >
+                                    No
+                                    </label>
+                                </div>
+                            </div>
+                         </div>
+
+                         <div class="form-input">
+                          <div class="row">
+                            <div class="col-md-4 p-3  "><label for="">Monitoring Namespace</label></div>
+                            <div class="col-md-8"><input type="text" class="form-control"  name="monitoring_namespace" placeholder="Monitoring Namespace" required></div>
+                          </div>
+                        </div> 
+
+                       
+                      
+  
+                          
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-primary mt-5 "  name="submit"  onclick=" ButtonClicked()" >Launch</button>
+                            </div>
+                            <div class="col">
+                                <a href="http://localhost:8000/features" class="btn btn-danger mt-5"      >Cancel </a>
+                            </div>
+
+                        </div>
+                       
+                
+                    
+                    </div>
+                </form>
+                <div id="loading">
+                    <div class="lds-facebook"><div></div><div></div><div></div><div></div><div></div></div>
+                  </div>
+
+          </div>
+        </div>
          
-    </div>
+   
 
 
 

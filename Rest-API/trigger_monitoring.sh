@@ -78,5 +78,6 @@ function trigger_monitoring()
 source .env
 GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY | base64 -d)
 GITHUB_TOKEN=$(echo $GITHUB_TOKEN | base64 -d)
+
 parseArgs "$@"
 trigger_monitoring $dockerimage $namespace $GITHUB_REPOSITORY $GITHUB_TOKEN

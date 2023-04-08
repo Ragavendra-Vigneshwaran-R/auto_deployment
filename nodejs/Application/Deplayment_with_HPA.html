@@ -9,7 +9,32 @@
      <title>Deplayment With HPA(Keda)</title>
 </head>
 <style>
- 
+ *{
+    margin: 0;
+    padding: 0;
+    overflow: none;
+    box-sizing: border-box;
+    font-family: 'poppins',sans-serif;
+  }
+  .holder{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 10px;
+  }
+  .form_container{
+    background: #fff;
+    width: 800px;
+    max-width: 800px;
+    padding: 25px 40px 10px 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+  .form_container input[type=text]{
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+  }
     .main{
         background-color:#f0f2f4;
         text-align: center;
@@ -188,9 +213,10 @@
   }
 }
 #loading{
-  display: none;
-} 
-    
+  display:none;
+  padding-bottom: 20px;
+  margin-left: 38%;
+}  
        
     
 </style>
@@ -199,132 +225,129 @@
         <div class="header">
             <h2>Deployment With Keda</h2>
         </div>
-        
-         <!--Form content start-->
-            <div class="container mt-5 mb-5">
+      </div>
 
-                        <div class="row d-flex align-items-center justify-content-center">
+         <div class="holder">
+            <div class="form_container">
+              <form action="http://localhost:8000/keda" method="post">
 
-                            <div class="col-md-6">
-                                <form action="http://localhost:8000/keda" method="post">
+                <div class="card px-5 py-5">
 
-                                    <div class="card px-5 py-5">
+                    <div class="form-input">
+                       <div class="row py-3">
 
-                                        <div class="form-input">
-                                           <div class="row py-3">
-
-                                                    <div class="col-md-6">
-                                                         <label for="">Cloud Providers  :</label>
-                                                    </div>
-
-                                                <div class="col-md-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" value="aws" name="cloudprovider" checked id="yes">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            AWS
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" value="azure" name="cloudprovider" id="yes">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            Azure
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" value="both" name="cloudprovider" id="yes">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            Both
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                        </div>
-
-                                        <div class="form-input">
-                                                <input type="text" class="form-control" name="dockerimage" placeholder="Docker Image">
-                                            </div>
-
-                                            <div class="row">
-                                                    <div class="col py-3" >
-                                                        <Label class="form-control" style="border: none;font-size: 18px; ">Dedicated Cluster :</Label> 
-                                                </div>
-                                                <div class="col py-4">
-                                                    
-                                                    <div class="row">
-                                                            <div class="col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" value="yes" name="Dedicated_cluster" id="yes" checked>
-                                                                    <label class="form-check-label"  >
-                                                                    Yes
-                                                                    </label>
-                                                                </div>
-                                                                
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" value="no" name="Dedicated_cluster" id="no" >
-                                                                    <label class="form-check-label">
-                                                                    No
-                                                                    </label>
-                                                                </div>
-                                                                    
-                                                            </div>
-                                                    </div>
-                                                
-                                                </div>
-                                            </div>
-
-                                        
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="maximumpods" placeholder="Maximum Pods">      
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="minimumpods" placeholder="Minimum Pods">
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="metrics"  placeholder="Metrics">      
-                                            </div>
-                                            <div class="form-input">
-                                                <input type="text" class="form-control" name="namespace" placeholder="Namespace">      
-                                            </div>
-                    
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <button id="formsubmitbutton" class="btn btn-primary mt-5 " type="submit"  name="submit" onclick=" ButtonClicked()" >OK</button>
-                                            </div>
-                                            <div class="col">
-                                                <a href="http://localhost:8000/features" class="btn btn-danger mt-5"      >Cancel </a>
-                                            </div>
-
-                                        </div>
-                                        
-                                    
-                                    </div>
-                                </form>
-
-                                <div id="loading">
-                                  <div class="lds-facebook"><div></div><div></div><div></div><div></div><div></div></div>
+                                <div class="col-md-6">
+                                     <label for="">Cloud Providers  :</label>
                                 </div>
 
-                                
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="aws" name="cloudprovider" checked id="yes">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        AWS
+                                    </label>
+                                </div>
                             </div>
-                        
+
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="azure" name="cloudprovider" id="yes">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Azure
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="both" name="cloudprovider" id="yes">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Both
+                                    </label>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+
+                      <div class="form-input">
+                            <div class="row">
+                              <div class="col-md-4 p-3  "><label for="">Docker Image</label></div>
+                              <div class="col-md-8"><input type="text" class="form-control" name="dockerimage" placeholder="Docker Image"></div>
+                            </div>
+                      </div>
+
+                          <div class="row p-4">
+                                <div class="col-md-6"  style="margin-left:-20px ;">
+                                    <Label >Dedicated Cluster :</Label> 
+                                </div>
+                                <div class="col-md-3">                            
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="yes" name="Dedicated_cluster" id="yes">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                        Yes
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">                            
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" value="no" name="Dedicated_cluster"  >
+                                      No
+                                      </label>
+                                  </div>
+                              </div>
                         </div>
+
                     
-             </div>
-        <!--Form content end-->
+                        <div class="form-input">
+                           <div class="row">
+                             <div class="col-md-4 p-3"><label for="">Maximum Pods</label></div>
+                             <div class="col-md-8"> <input type="text" class="form-control" name="maximumpods" placeholder="Maximum Pods">  </div>
+                           </div>    
+                        </div>
+
+                        <div class="form-input">
+                          <div class="row">
+                            <div class="col-md-4 p-3"><label for="">Minimum Pods</label></div>
+                            <div class="col-md-8"> <input type="text" class="form-control" name="minimumpods" placeholder="Minimum Pods"></div>
+                          </div> 
+                           
+                        </div>
+
+                        <div class="form-input">
+                            <div class="row">
+                              <div class="col-md-4"><label for="">Metrics</label></div>
+                              <div class="col-md-8"> <input type="text" class="form-control" name="metrics"  placeholder="Metrics">  </div>
+                            </div>    
+                        </div>
+                        <div class="form-input">
+                          <div class="row">
+                            <div class="col-md-4 p-3"><label for="">Namespace</label></div>
+                            <div class="col-md-8"> <input type="text" class="form-control" name="namespace" placeholder="Namespace"></div>
+                         </div>    
+                        </div>
+
+
+                    <div class="row ">
+                        <div class="col-6">
+                            <button id="formsubmitbutton" class="btn btn-primary mt-5 " type="submit"  name="submit" onclick=" ButtonClicked()" >Launch</button>
+                        </div>
+                        <div class="col-6">
+                            <a href="http://localhost:8000/features" class="btn btn-danger mt-5"      >Cancel </a>
+                        </div>
+
+                    </div>
+                    
+                
+                   </div>
+              </form>
+                  <div id="loading">
+                    <div class="lds-facebook"><div></div><div></div><div></div><div></div><div></div></div>
+                  </div>
+
+            </div>
+         </div>
         <br>
-    </div>
+    
 
 
    

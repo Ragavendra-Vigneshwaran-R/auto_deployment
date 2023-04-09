@@ -74,7 +74,6 @@ app.post('/keda', urlencodedParser, (req, res) => {
     var min_pod=req.body.minimumpods;
     var max_pod=req.body.maximumpods;
     var metric=req.body.metrics;
-    //C:\Users\TAMILMANI\Desktop\Project1\auto_deployment\Rest-API
     var yourscript = exec('sh ../Rest-API/trigger_keda.sh --dockerimage '+docker_image +' --maxpods '+max_pod+' --minpods '+min_pod+' --metrics '+metric+' --namespace '+namespace,
         (error, stdout, stderr) => {
             console.log(stdout);

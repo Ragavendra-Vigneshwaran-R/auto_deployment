@@ -100,7 +100,16 @@ app.post('/cicd', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace);
+    var yourscript = exec('sh ../Rest-API/trigger_cicd.sh --dockerimage '+ docker_image +' --namespace '+namespace,
+    (error, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+    });
     setTimeout(()=>{
+        console.log(yourscript);
         res.sendStatus(200);
     },10000)
 

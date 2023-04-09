@@ -23,4 +23,4 @@ echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.ArgoCD Password .-.-.-.-.-
 echo "ArgoCD Password : $argocd_password"
 echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.ArgoCD Resources of your application .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
 echo "$argocd_resources"
-echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with monitoring .-.-.-.-.-.-.-.-.-.-.-.-."
+echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with CICD .-.-.-.-.-.-.-.-.-.-.-.-."

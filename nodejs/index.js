@@ -2,7 +2,7 @@ const express = require('express');
 const session=require('express-session');
 const flash=require('connect-flash');
 var bodyParser = require('body-parser');
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 
 
 const app = express();
@@ -74,21 +74,22 @@ app.post('/keda', urlencodedParser, (req, res) => {
     var min_pod=req.body.minimumpods;
     var max_pod=req.body.maximumpods;
     var metric=req.body.metrics;
-    var yourscript = exec('sh ../Rest-API/trigger_keda.sh --dockerimage '+docker_image +' --maxpods '+max_pod+' --minpods '+min_pod+' --metrics '+metric+' --namespace '+namespace,
-        (error, stdout, stderr) => {
-            console.log(stdout);
-            console.log(stderr);
-            if (error !== null) {
-                console.log(`exec error: ${error}`);
-            }
-        });
-   setTimeout(function () {
-        console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace+ "--"+ min_pod+ "--"+ max_pod +"--"+ metric);
-       // console.log(yourscript);
+      const scriptPath = '../Rest-API/trigger_keda.sh';
+      const args = ['--dockerimage', docker_image, '--maxpods', max_pod , '--minpods', min_pod, '--metrics', metric, '--namespace', namespace];
+      
+      execFile(scriptPath, args, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+      });
+
+      setTimeout(function () {
         res.sendStatus(200);
 
       }, 10000)
-   
 
 });
 
@@ -99,18 +100,24 @@ app.post('/cicd', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace);
-    var yourscript = exec('sh ../Rest-API/trigger_cicd.sh --dockerimage '+ docker_image +' --namespace '+namespace,
-    (error, stdout, stderr) => {
-        console.log(stdout);
-        console.log(stderr);
-        if (error !== null) {
-            console.log(`exec error: ${error}`);
+     
+    const scriptPath = '../Rest-API/trigger_cicd.sh';
+      const args = ['--dockerimage', docker_image, '--namespace', namespace];
+      
+      execFile(scriptPath, args, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
         }
-    });
-    setTimeout(()=>{
-        console.log(yourscript);
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+      });
+
+      setTimeout(function () {
         res.sendStatus(200);
-    },10000)
+
+      }, 10000)
+
 
 });
 
@@ -121,20 +128,24 @@ app.post('/monitoring', urlencodedParser, (req, res) => {
     var dedicated_cluster=req.body.Dedicated_cluster;
     var namespace=req.body.namespace;
     console.log(selected_cloud +"--"+ docker_image + "--"+ dedicated_cluster+ "--"+ namespace);
-   var yourscript = exec('sh ../Rest-API/trigger_monitoring.sh --dockerimage '+ docker_image +' --namespace '+namespace,
-    (error, stdout, stderr) => {
-        console.log(stdout);
-        console.log(stderr);
-        if (error !== null) {
-            console.log(`exec error: ${error}`);
-        }
+    const scriptPath = '../Rest-API/trigger_monitoring.sh';
+    const args = ['--dockerimage', docker_image, '--namespace', namespace];
+    
+    execFile(scriptPath, args, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
     });
-    setTimeout(()=>{
-       // console.log(yourscript);
-        res.sendStatus(200);
-    },10000)
+
+    setTimeout(function () {
+      res.sendStatus(200);
+    }, 10000)
 
 });
+
 
 
 

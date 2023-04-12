@@ -53,6 +53,9 @@ jobs:
       - name: Install Helm
         run: |
           ./automation-scripts/installation_scripts/installhelm.sh
+      - name: Clone github files to runner
+        run: |
+          ./automation-scripts/cloning_scripts/clonerepo.sh
       - name: Install Keda
         run: |
           if [[ ${{ inputs.keda }} = "true" ]]
@@ -77,9 +80,6 @@ jobs:
           else
             echo -e "Monitoring is not requested, skipping installation for Monitoring.."
           fi
-      - name: Clone github files to runner
-        run: |
-          ./automation-scripts/cloning_scripts/clonerepo.sh
       - name: Deploy the application with multifeature
         run: |
           if [ ${{ inputs.cicd }} = "true" ] && [ ${{ inputs.keda }} = "true" ] || [ ${{ inputs.monitoring }} = "true" ]

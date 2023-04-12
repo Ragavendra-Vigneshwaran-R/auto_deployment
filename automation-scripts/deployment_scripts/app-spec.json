@@ -2,7 +2,7 @@
     "apiVersion": "argoproj.io/v1alpha1",
     "kind": "Application",
     "metadata": {
-      "name": "my-namespace"
+      "name": "shihaab"
     },
     "spec": {
       "project": "default",
@@ -11,12 +11,12 @@
         "path": "./deployment/",
         "targetRevision": "develop",
         "helm": {
-            "values": "imageTag: my-dockerimage"
+            "values": "imageTag: ragavendra1411/front-end:1.0.0\nnamespace: shihaab"
           }  
       },
       "destination": {
         "server": "https://kubernetes.default.svc",
-        "namespace": "my-namespace"
+        "namespace": "shihaab"
       },
       "syncPolicy": {
         "automated": {

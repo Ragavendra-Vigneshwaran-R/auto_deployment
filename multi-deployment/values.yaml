@@ -10,11 +10,11 @@ request_cpu: 500m
 request_memory: 500Mi
 limit_cpu: 1
 limit_memory: 1Gi
+namespace: ragav
 keda:
   enabled: true
   apiversion: keda.sh/v1alpha1
   app_name: keda
-  namespace: keda
   pollingInterval: 3   
   cooldownPeriod: 30    
   minReplicaCount: 1 

@@ -4,7 +4,7 @@ apiVersion: {{ index $.Values "keda" "apiversion" }}
 kind: ScaledObject
 metadata:
   name: {{ index $.Values "keda" "app_name" }}
-  namespace: {{ index $.Values "keda" "namespace" }}
+  namespace: {{ index $.Values "namespace" }}
 spec:
   scaleTargetRef:
     apiVersion: {{ .Values.apiversion }}

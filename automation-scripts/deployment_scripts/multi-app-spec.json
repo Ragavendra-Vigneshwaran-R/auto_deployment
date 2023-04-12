@@ -11,7 +11,7 @@
         "path": "./multi-deployment/",
         "targetRevision": "develop",
         "helm": {
-            "values": "imageTag: my-dockerimage"
+            "values": "imageTag: my-dockerimage\nnamespace: my-namespace"
           }  
       },
       "destination": {

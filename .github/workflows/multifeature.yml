@@ -101,21 +101,21 @@ jobs:
   Output:
       - name: MultiFeature
         run: |
-        if [[ ${{ inputs.keda }} = "true" ]]
-        then
-          output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
-          echo -e "$output"
-        fi
-        if [[ ${{ inputs.cicd }} = "true" ]]
-        then
-          output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
-          echo -e "$output"
-        fi
-        if [[ ${{ inputs.monitoring }} = "true" ]]
-        then
-          output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
-          echo -e "$output"
-        fi
+          if [[ ${{ inputs.keda }} = "true" ]]
+          then
+            output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
+            echo -e "$output"
+          fi
+          if [[ ${{ inputs.cicd }} = "true" ]]
+          then
+            output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
+            echo -e "$output"
+          fi
+          if [[ ${{ inputs.monitoring }} = "true" ]]
+          then
+            output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
+            echo -e "$output"
+          fi
       - name: Domain
         run: |
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})

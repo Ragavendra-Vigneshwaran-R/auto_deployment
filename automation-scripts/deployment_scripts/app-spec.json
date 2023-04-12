@@ -11,7 +11,7 @@
         "path": "./deployment/",
         "targetRevision": "develop",
         "helm": {
-            "values": "imageTag: my-dockerimage"
+            "values": "imageTag: my-dockerimage\nkeda\n  enabled: true"
           }  
       },
       "destination": {

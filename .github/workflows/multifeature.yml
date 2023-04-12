@@ -103,7 +103,7 @@ jobs:
           if [[ ${{ inputs.keda }} = "true" ]]
           then
             keda_output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
-            echo -e "$keda_output"  | fold -w 300
+            echo -e "$keda_output"  | fold -w 50
           else
             echo -e "keda is not requested.."
           fi
@@ -112,7 +112,7 @@ jobs:
           if [[ ${{ inputs.cicd }} = "true" ]]
           then
             cicd_output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
-            echo -e "$cicd_output"  | fold -w 300
+            echo -e "$cicd_output"  | fold -w 50
           else
             echo -e "CICD is not requested.."
           fi
@@ -121,14 +121,14 @@ jobs:
           if [[ ${{ inputs.monitoring }} = "true" ]]
           then
             monitoring_output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
-            echo -e "$monitoring_output"  | fold -w 300
+            echo -e "$monitoring_output"  | fold -w 50
           else
             echo -e "Monitoring is not requested.."
           fi
       - name: Domain
         run: |
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
-          echo -e "$domain"  | fold -w 300
+          echo -e "$domain"  | fold -w 50
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

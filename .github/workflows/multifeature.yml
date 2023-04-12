@@ -102,18 +102,18 @@ jobs:
         run: |
           if [[ ${{ inputs.keda }} = "true" ]]
           then
-            output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
-            echo -e "$output"
+            keda_output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
+            echo -e "$keda_output"
           fi
           if [[ ${{ inputs.cicd }} = "true" ]]
           then
-            output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
-            echo -e "$output"
+            cicd_output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
+            echo -e "$cicd_output"
           fi
           if [[ ${{ inputs.monitoring }} = "true" ]]
           then
-            output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
-            echo -e "$output"
+            monitoring_output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
+            echo -e "$monitoring_output"
           fi
       - name: Domain
         run: |

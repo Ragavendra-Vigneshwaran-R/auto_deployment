@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-# Name: deploy_cicd.sh
+# Name: multi_deploy_cicd.sh
 ###############################################################################
 # Description:
 # To deploy application with monitoring for the required tenants

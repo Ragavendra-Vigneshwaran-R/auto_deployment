@@ -15,20 +15,20 @@
 # Function Declaration
 ###############################################################################
 function exit_error {
-  echo "[`date`] ${*}"
+  echo -e "[`date`] ${*}"
   exit 1
 }
 
 # Write message to stdout
 function console_msg {
-  echo "[`date`] ${*}"
+  echo -e "[`date`] ${*}"
 }
 
 # Usage of this script
 usage() {
-  echo " --namespace   - Namespce in which the deployment to be deployed"
-  echo " -h|--help     - Show this help message"
-  echo ""
+  echo -e " --namespace   - Namespce in which the deployment to be deployed"
+  echo -e " -h|--help     - Show this help message"
+  echo -e ""
   exit 1
 }
 
@@ -58,13 +58,13 @@ function get_keda()
 {
     namespace=${1}
     sleep 120
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.HPA of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    echo -e "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.HPA of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
     kubectl get hpa -n $namespace
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Scaled Objects of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    echo -e "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Scaled Objects of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
     kubectl get ScaledObjects -n $namespace
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Keda Resources of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    echo -e "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Keda Resources of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
     kubectl get all -n keda
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with Keda .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    echo -e "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Application is succesfully deployed with Keda .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
 }
 
 

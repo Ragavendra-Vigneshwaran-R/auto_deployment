@@ -15,20 +15,20 @@
 # Function Declaration
 ###############################################################################
 function exit_error {
-  echo "[`date`] ${*}"
+  echo -e "[`date`] ${*}"
   exit 1
 }
 
 # Write message to stdout
 function console_msg {
-  echo "[`date`] ${*}"
+  echo -e "[`date`] ${*}"
 }
 
 # Usage of this script
 usage() {
-  echo " --namespace   - Namespce in which the deployment to be deployed"
-  echo " -h|--help     - Show this help message"
-  echo ""
+  echo -e " --namespace   - Namespce in which the deployment to be deployed"
+  echo -e " -h|--help     - Show this help message"
+  echo -e ""
   exit 1
 }
 
@@ -57,10 +57,10 @@ parseArgs(){
 function get_domain()
 {
     namespace=${1}
-    echo "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Domain of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
+    echo -e "-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.Domain of your application.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-."
     domain=$(kubectl get svc application-svc -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' -n $namespace)
     port="3000"
-    echo "Domain : $domain:$port"
+    echo -e "Domain : $domain:$port"
 }
 
 

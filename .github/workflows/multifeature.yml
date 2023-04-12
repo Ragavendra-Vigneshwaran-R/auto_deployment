@@ -98,22 +98,32 @@ jobs:
           then
             ./automation-scripts/deployment_scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
           fi
-      - name: MultiFeature
+      - name: Keda
         run: |
           if [[ ${{ inputs.keda }} = "true" ]]
           then
             keda_output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
             echo -e "$keda_output"
+          else
+            echo -e "keda is not requested.."
           fi
+      - name: CICD
+        run: |
           if [[ ${{ inputs.cicd }} = "true" ]]
           then
             cicd_output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
             echo -e "$cicd_output"
+          else
+            echo -e "CICD is not requested.."
           fi
+      - name: Monitoring
+        run: |
           if [[ ${{ inputs.monitoring }} = "true" ]]
           then
             monitoring_output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
             echo -e "$monitoring_output"
+          else
+            echo -e "Monitoring is not requested.."
           fi
       - name: Domain
         run: |

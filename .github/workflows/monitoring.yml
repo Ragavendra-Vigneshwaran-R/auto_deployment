@@ -11,7 +11,7 @@ on:
         required: true
         type: string
 jobs:
-  deploy:
+  Install Dependency:
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -34,17 +34,23 @@ jobs:
       - name: Clone github files to runner
         run: |
           ./automation-scripts/cloning_scripts/clonerepo.sh
+      - name: Install Monitoring
+        run: |
+          ./automation-scripts/installation_scripts/install_monitoring.sh
+  Actual Deployment:
       - name: Deploy the application with monitoring
         run: |
           ./automation-scripts/deployment_scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+  Output:
       - name: Monitoring
         run: |
           output=$(~/auto_deployment/automation-scripts/output_scripts/getmonitoring.sh)
-          echo "$output"
+          echo -e "$output"
       - name: Domain
         run: |
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
-          echo "$domain"
+          echo -e "$domain"
+  Delete Dependices:
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

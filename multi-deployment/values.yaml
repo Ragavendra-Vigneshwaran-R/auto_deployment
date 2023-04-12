@@ -1,0 +1,32 @@
+apiversion: apps/v1
+app_name: application
+labels:
+  app: backend-app
+imageTag: ragavendra1411/front-end:1.0.0
+port: 3000
+replicaCount: 1
+svc_type: LoadBalancer
+request_cpu: 500m
+request_memory: 500Mi
+limit_cpu: 1
+limit_memory: 1Gi
+keda:
+  enabled: true
+  apiversion: keda.sh/v1alpha1
+  app_name: keda
+  namespace: keda
+  pollingInterval:  3   
+  cooldownPeriod:   30    
+  minReplicaCount:  1 
+  maxReplicaCount:  3
+  triggers:
+    type: cpu
+    metricType: Utilization
+    value: 40
+  advanced:
+    restoreToOriginalReplicaCount: true 
+    stabilizationWindowSeconds: 0
+    policies:
+      type: Percent
+      value: 1
+      periodSeconds: 120

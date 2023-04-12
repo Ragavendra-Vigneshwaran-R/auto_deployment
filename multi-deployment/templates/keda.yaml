@@ -1,0 +1,32 @@
+{{- $kedaEnabled:= index $.Values "keda" "enabled" }}
+{{- if $kedaEnabled }}
+apiVersion: {{ index $.Values "keda" "apiversion" }}
+kind: ScaledObject
+metadata:
+  name: {{ index $.Values "keda" "app_name" }}
+  namespace: {{ index $.Values "keda" "namespace" }}
+spec:
+  scaleTargetRef:
+    apiVersion: {{ .Values.apiversion }}
+    name: {{ .Values.app_name }}-dep
+    kind: Deployment
+  pollingInterval: {{ index $.Values "keda" "pollingInterval" }}                     
+  cooldownPeriod: {{ index $.Values "keda" "cooldownPeriod" }}                            
+  minReplicaCount: {{ index $.Values "keda" "minReplicaCount" }}                             
+  maxReplicaCount: {{ index $.Values "keda" "maxReplicaCount" }}
+  advanced:
+    restoreToOriginalReplicaCount: {{ index $.Values "keda" "advanced" "restoreToOriginalReplicaCount" }} 
+    horizontalPodAutoscalerConfig:                   
+      behavior:                                      
+        scaleDown:
+          stabilizationWindowSeconds: {{ index $.Values "keda" "advanced" "stabilizationWindowSeconds" }}
+          policies:
+          - type: {{ index $.Values "keda" "advanced" "policies" "type" }}
+            value: {{ index $.Values "keda" "advanced" "policies" "value" }}
+            periodSeconds: {{ index $.Values "keda" "advanced" "policies" "periodSeconds" }}  
+  triggers:
+  - type: {{ index $.Values "keda" "triggers" "type" }}
+    metricType: {{ index $.Values "keda" "triggers" "metricType" }}
+    metadata:
+      value: "{{ index $.Values "keda" "triggers" "value" }}"
+{{- end }}

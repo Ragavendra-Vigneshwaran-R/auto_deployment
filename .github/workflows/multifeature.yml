@@ -1,0 +1,126 @@
+name: Deploy_Keda
+on:
+  workflow_dispatch:
+    inputs:
+      dockerimage:
+        description: "Docker Image of your application"
+        required: true
+        type: string
+      keda:
+        description: keda
+        required: false
+        type: choice
+        options:
+          - true
+          - false
+      cicd:
+        description: cicd
+        required: false
+        type: choice
+        options:
+          - true
+          - false
+      monitoring:
+        description: monitoring
+        required: false
+        type: choice
+        options:
+          - true
+          - false
+      namespace:
+        description: "Namespace of the application"
+        required: true
+        type: string
+jobs:
+  Install Dependency:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Set up kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ${{ secrets.SHARED_EKS_REGION }} --name ${{ secrets.SHARED_EKS_NAME }}
+      - name: Set up kubectl
+        run: |
+          ./automation-scripts/installation_scripts/installkubectl.sh
+      - name: Install Helm
+        run: |
+          ./automation-scripts/installation_scripts/installhelm.sh
+      - name: Install Keda
+        run: |
+          if [[ ${{ inputs.keda }} = "true" ]]
+          then
+            ./automation-scripts/installation_scripts/install_keda.sh
+          else
+            echo -e "Keda is not requested, skipping installation for keda.."
+          fi
+      - name: Install ArgoCD
+        run: |
+          if [[ ${{ inputs.cicd }} = "true" ]]
+          then
+            ./automation-scripts/installation_scripts/install_argocd.sh
+          else
+            echo -e "CICD is not requested, skipping installation for CICD.."
+          fi
+      - name: Install Monitoring
+        run: |
+          if [[ ${{ inputs.monitoring }} = "true" ]]
+          then
+            ./automation-scripts/installation_scripts/install_monitoring.sh
+          else
+            echo -e "Monitoring is not requested, skipping installation for Monitoring.."
+          fi
+      - name: Clone github files to runner
+        run: |
+          ./automation-scripts/cloning_scripts/clonerepo.sh
+  Actual Deployment:
+      - name: Deploy the application with multifeature
+        run: |
+          if [ ${{ inputs.cicd }} = "true" ] && [ ${{ inputs.keda }} = "true" ] || [ ${{ inputs.monitoring }} = "true" ]
+          then
+            ./automation-scripts/deployment_scripts/multi_deploy_cicd.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+          elif [ ${{ inputs.cicd }} = "false" ] && [ ${{ inputs.keda }} = "true" ] || [ ${{ inputs.monitoring }} = "true" ]
+          then 
+            maxpods=3
+            minpods=1
+            metrics="cpu"
+            ./automation-scripts/deployment_scripts/deploy_keda.sh --dockerimage ${{ inputs.dockerimage }} --maxpods $maxpods --minpods $minpods --metrics $metric --namespace ${{ inputs.namespace }}
+          elif [ ${{ inputs.cicd }} = "true" ] && [ ${{ inputs.keda }} = "false" ] || [ ${{ inputs.monitoring }} = "true" ]
+          then
+            ./automation-scripts/deployment_scripts/deploy_cicd.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+          elif [ ${{ inputs.cicd }} = "false" ] && [ ${{ inputs.keda }} = "false" ] || [ ${{ inputs.monitoring }} = "true" ]
+          then
+            ./automation-scripts/deployment_scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+          fi
+  Output:
+      - name: MultiFeature
+        run: |
+        if [[ ${{ inputs.keda }} = "true" ]]
+        then
+          output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
+          echo -e "$output"
+        fi
+        if [[ ${{ inputs.cicd }} = "true" ]]
+        then
+          output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
+          echo -e "$output"
+        fi
+        if [[ ${{ inputs.monitoring }} = "true" ]]
+        then
+          output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
+          echo -e "$output"
+        fi
+      - name: Domain
+        run: |
+          domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
+          echo -e "$domain"
+  Delete Dependices:
+      - name: Remove github files
+        run: |
+          rm -rf ~/auto_deployment/

@@ -11,7 +11,7 @@ on:
         required: true
         type: string
 jobs:
-  deploy:
+  Install Dependency:
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -37,17 +37,20 @@ jobs:
       - name: Install ArgoCD
         run: |
           ./automation-scripts/installation_scripts/install_argocd.sh
+  Actual Deployment:
       - name: Deploy the application with ArgoCD
         run: |
           ./automation-scripts/deployment_scripts/deploy_cicd.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
+  Output:
       - name: ArgoCD
         run: |
           output=$(~/auto_deployment/automation-scripts/output_scripts/getcicd.sh)
-          echo "$output"
+          echo -e "$output"
       - name: Domain
         run: |
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
-          echo "$domain"
+          echo -e "$domain"
+  Delete Dependices:
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

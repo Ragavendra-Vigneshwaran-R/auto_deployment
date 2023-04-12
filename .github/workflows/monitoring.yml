@@ -12,6 +12,7 @@ on:
         type: string
 jobs:
   Install Dependency:
+    name: Install Dependency
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -38,10 +39,16 @@ jobs:
         run: |
           ./automation-scripts/installation_scripts/install_monitoring.sh
   Actual Deployment:
+    name: Actual Deployment
+    runs-on: self-hosted
+    steps:
       - name: Deploy the application with monitoring
         run: |
           ./automation-scripts/deployment_scripts/deploy_monitoring.sh --dockerimage ${{ inputs.dockerimage }} --namespace ${{ inputs.namespace }}
   Output:
+    name: Output
+    runs-on: self-hosted
+    steps:
       - name: Monitoring
         run: |
           output=$(~/auto_deployment/automation-scripts/output_scripts/getmonitoring.sh)
@@ -51,6 +58,9 @@ jobs:
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
           echo -e "$domain"
   Delete Dependices:
+    name: Delete Dependices
+    runs-on: self-hosted
+    steps:
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

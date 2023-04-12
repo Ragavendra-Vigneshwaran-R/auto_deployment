@@ -24,6 +24,7 @@ on:
         type: string
 jobs:
   Install Dependency:
+    name: Install Dependency
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -50,10 +51,16 @@ jobs:
         run: |
           ./automation-scripts/cloning_scripts/clonerepo.sh
   Actual Deployment:
+    name: Actual Deployment
+    runs-on: self-hosted
+    steps:
       - name: Deploy the application with keda
         run: |
           ./automation-scripts/deployment_scripts/deploy_keda.sh --dockerimage ${{ inputs.dockerimage }} --maxpods ${{ inputs.maxpods }} --minpods ${{ inputs.minpods }} --metrics ${{ inputs.metrics }} --namespace ${{ inputs.namespace }}
   Output:
+    name: Output
+    runs-on: self-hosted
+    steps:
       - name: Keda
         run: |
           output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
@@ -63,6 +70,9 @@ jobs:
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
           echo -e "$domain"
   Delete Dependices:
+    name: Delete Dependices
+    runs-on: self-hosted
+    steps:
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

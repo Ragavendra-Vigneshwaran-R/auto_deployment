@@ -69,6 +69,7 @@ function deploy_cicd()
   argocd login $argocd_endpoint --username $argocd_username --password $argocd_password --insecure
   argocd_token=$(argocd account generate-token --account ragav)
   kubectl create ns $namespace
+  sleep 30
   sed -i "s|my-namespace|"$namespace"|g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
   sed -i "s|my-dockerimage|"$dockerimage"|g" ~/auto_deployment/automation-scripts/deployment_scripts/app-spec.json
   curl --insecure -X POST \

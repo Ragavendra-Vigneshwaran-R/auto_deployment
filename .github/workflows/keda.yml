@@ -24,7 +24,7 @@ on:
         type: string
 jobs:
   Deployment:
-    name: Deployment
+    name: Keda Deployment
     runs-on: self-hosted
     steps:
       - name: Checkout code

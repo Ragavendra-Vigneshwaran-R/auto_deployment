@@ -12,7 +12,7 @@ on:
         type: string
 jobs:
   Deployment:
-    name: Deployment
+    name: CICD Deployment
     runs-on: self-hosted
     steps:
       - name: Checkout code

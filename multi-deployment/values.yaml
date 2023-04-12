@@ -1,7 +1,7 @@
 apiversion: apps/v1
-app_name: application
+app_name: multiapplication
 labels:
-  app: backend-app
+  app: multi-backend-app
 imageTag: ragavendra1411/front-end:1.0.0
 port: 3000
 replicaCount: 1
@@ -15,10 +15,10 @@ keda:
   apiversion: keda.sh/v1alpha1
   app_name: keda
   namespace: keda
-  pollingInterval:  3   
-  cooldownPeriod:   30    
-  minReplicaCount:  1 
-  maxReplicaCount:  3
+  pollingInterval: 3   
+  cooldownPeriod: 30    
+  minReplicaCount: 1 
+  maxReplicaCount: 2
   triggers:
     type: cpu
     metricType: Utilization

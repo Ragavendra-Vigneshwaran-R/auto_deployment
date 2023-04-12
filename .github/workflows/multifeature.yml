@@ -102,8 +102,11 @@ jobs:
         run: |
           if [[ ${{ inputs.keda }} = "true" ]]
           then
-            keda_output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
-            echo -e "$keda_output"
+            output=$(./automation-scripts/output_scripts/getkeda.sh --namespace ${{ inputs.namespace }})
+            echo "::set-output name=my-output::$output"
+            echo $output
+        env:
+          output: ${{ steps.display-output.outputs.my-output }}
           else
             echo -e "keda is not requested.."
           fi
@@ -111,8 +114,11 @@ jobs:
         run: |
           if [[ ${{ inputs.cicd }} = "true" ]]
           then
-            cicd_output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
-            echo -e "$cicd_output"
+            output=$(./automation-scripts/output_scripts/getcicd.sh --namespace ${{ inputs.namespace }})
+            echo "::set-output name=my-output::$output"
+            echo $output
+        env:
+          output: ${{ steps.display-output.outputs.my-output }}
           else
             echo -e "CICD is not requested.."
           fi
@@ -120,15 +126,21 @@ jobs:
         run: |
           if [[ ${{ inputs.monitoring }} = "true" ]]
           then
-            monitoring_output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
-            echo -e "$monitoring_output"
+            output=$(./automation-scripts/output_scripts/getmonitoring.sh --namespace ${{ inputs.namespace }})
+            echo "::set-output name=my-output::$output"
+            echo $output
+        env:
+          output: ${{ steps.display-output.outputs.my-output }}
           else
             echo -e "Monitoring is not requested.."
           fi
       - name: Domain
         run: |
           domain=$(./automation-scripts/output_scripts/getdomain.sh --namespace ${{ inputs.namespace }})
-          echo -e "$domain"
+            echo "::set-output name=my-output::$domain"
+            echo $output
+        env:
+          domain: ${{ steps.display-output.outputs.my-output }}
       - name: Remove github files
         run: |
           rm -rf ~/auto_deployment/

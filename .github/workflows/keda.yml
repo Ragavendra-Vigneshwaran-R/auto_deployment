@@ -1,4 +1,4 @@
-name: Deploy_Keda
+name: Keda Deployment
 on:
   workflow_dispatch:
     inputs:

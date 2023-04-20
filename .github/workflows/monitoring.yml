@@ -1,4 +1,4 @@
-name: Deploy_Monitoring
+name: Monitoring Deployment
 on:
   workflow_dispatch:
     inputs:

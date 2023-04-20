@@ -1,4 +1,4 @@
-name: Deploy_Multifeature
+name: Multifeature Deployment
 on:
   workflow_dispatch:
     inputs:
